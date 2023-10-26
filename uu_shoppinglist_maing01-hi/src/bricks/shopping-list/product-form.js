@@ -31,22 +31,9 @@ const ProductForm = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({ create }) {
+  render({ addNewProduct, product, setProduct }) {
     //@@viewOn:private
-    const [product, setProduct] = useState({ name: '' });
 
-    const addNewProduct = (e) => {
-      e.preventDefault()
-      if (product.name.trim() !== '') {
-        const newProduct = {
-          id: Date.now(),
-          ...product,
-          completed: false
-        }
-        create(newProduct)
-        setProduct({ name: '' })
-      }
-    }
 
     //@@viewOff:private
 

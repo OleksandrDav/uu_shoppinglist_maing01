@@ -28,11 +28,9 @@ const MembersList = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({ owner, shopUsers, setShopUsers }) {
+  render({ owner, shopUsers, handleDeleteUser}) {
     //@@viewOn:private
-    function handleDeleteUser(id) {
-      setShopUsers(shopUsers.filter(user => user.id !== id))
-    }
+    
     //@@viewOff:private
 
     //@@viewOn:interface

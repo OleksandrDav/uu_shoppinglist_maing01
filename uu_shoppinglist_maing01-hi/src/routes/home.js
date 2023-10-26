@@ -8,7 +8,11 @@ import Config from "./config/config.js";
 import WelcomeRow from "../bricks/welcome-row.js";
 import RouteBar from "../core/route-bar.js";
 import importLsi from "../lsi/import-lsi.js";
-import Detail from "../bricks/shopping-list/detail.js";
+import DetailProvider from "../bricks/shopping-list/detail-provider.js";
+import MembersBlock from "../bricks/shopping-list/members-block";
+import ProductBlock from "../bricks/shopping-list/product-block.js";
+import ProductProvider from "../bricks/shopping-list/product-provider.js";
+import MemberProvider from "../bricks/shopping-list/member-provider.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -119,7 +123,82 @@ let Home = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props);
     return (
       <div {...attrs}>
-        <Detail users={users} data={shoppingList} />
+        <DetailProvider>
+          {({ shoppingList, setShoppingList, users }) => (
+            <>
+              {/* <MembersBlock users={users} shoppingList={shoppingList} /> */}
+              <MemberProvider users={users} shoppingList={shoppingList}>
+                {({
+                  modal,
+                  setModal,
+                  owner,
+                  addMember,
+                  allUsers,
+                  shopUsers,
+                  setShopUsers,
+                  query,
+                  setQuery,
+                  searchedMembers,
+                  handleDeleteUser
+                }) => (
+                  <>
+                    <MembersBlock
+                      modal={modal}
+                      setModal={setModal}
+                      owner={owner}
+                      addMember={addMember}
+                      shopUsers={shopUsers}
+                      setShopUsers={setShopUsers}
+                      query={query}
+                      setQuery={setQuery}
+                      searchedMembers={searchedMembers}
+                      handleDeleteUser={handleDeleteUser}
+                    />
+                  </>
+                )
+                }
+              </MemberProvider>
+              <ProductProvider shoppingList={shoppingList} setShoppingList={setShoppingList}>
+                {({
+                  modal,
+                  setModal,
+                  filter,
+                  setFilter,
+                  shoppingList,
+                  filteredProducts,
+                  setShoppingList,
+                  handleUpdateShopName,
+                  addNewProduct,
+                  product,
+                  setProduct,
+                  handleDeleteProduct,
+                  handleUpdateProductCompleted,
+                  handleUpdateProductName
+                }) => (
+                  <>
+                    <ProductBlock
+                      modal={modal}
+                      setModal={setModal}
+                      filter={filter}
+                      setFilter={setFilter}
+                      shoppingList={shoppingList}
+                      filteredProducts={filteredProducts}
+                      setShoppingList={setShoppingList}
+                      handleUpdateShopName={handleUpdateShopName}
+                      addNewProduct={addNewProduct}
+                      product={product}
+                      setProduct={setProduct}
+                      handleDeleteProduct={handleDeleteProduct}
+                      handleUpdateProductCompleted={handleUpdateProductCompleted}
+                      handleUpdateProductName={handleUpdateProductName}
+                    />
+                  </>
+                )}
+
+              </ProductProvider>
+            </>
+          )}
+        </DetailProvider>
       </div>
     );
     //@@viewOff:render

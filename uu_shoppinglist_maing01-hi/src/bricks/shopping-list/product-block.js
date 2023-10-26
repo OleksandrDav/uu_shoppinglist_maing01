@@ -42,38 +42,24 @@ const ProductBlock = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({shoppingList, setShoppingList}) {
+  render({
+    modal,
+    setModal,
+    filter,
+    setFilter,
+    shoppingList,
+    filteredProducts,
+    setShoppingList,
+    handleUpdateShopName,
+    addNewProduct,
+    product,
+    setProduct,
+    handleDeleteProduct,
+    handleUpdateProductCompleted,
+    handleUpdateProductName
+  }) {
     //@@viewOn:private
-    const [modal, setModal] = useState(false)
-    const [filter, setFilter] = useState('all');
 
-    const filteredProducts = useMemo(() => {
-      return shoppingList.products.filter(product => {
-        if (filter === 'all') {
-          return true;
-        } else if (filter === 'completed') {
-          return product.completed;
-        } else {
-          return !product.completed;
-        }
-      });
-    }, [filter, shoppingList.products])
-
-
-    function handleUpdateShopName(value) {
-      const updatedShoppingList = { ...shoppingList }
-      updatedShoppingList.name = value
-      setShoppingList(updatedShoppingList)
-    }
-    function createProduct(newProduct) {
-      const updatedShoppingList = { ...shoppingList };
-      const updatedProducts = [...shoppingList.products];
-      updatedProducts.push(newProduct);
-      updatedShoppingList.products = updatedProducts;
-      setShoppingList(updatedShoppingList);
-
-      setModal(false)
-    }
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -106,10 +92,17 @@ const ProductBlock = createVisualComponent({
         <CreateModal
           visible={modal}
           setVisible={setModal}>
-          <ProductForm create={createProduct} />
+          <ProductForm
+            addNewProduct={addNewProduct}
+            product={product}
+            setProduct={setProduct} />
         </CreateModal>
         <ProductFilter filter={filter} setFilter={setFilter} />
-        <ProductList shoppingList={shoppingList} filteredProducts={filteredProducts} setShoppingList={setShoppingList} />
+        <ProductList 
+          filteredProducts={filteredProducts}
+          handleDeleteProduct={handleDeleteProduct}
+          handleUpdateProductCompleted={handleUpdateProductCompleted}
+          handleUpdateProductName={handleUpdateProductName} />
       </Uu5Elements.Block>
     );
     //@@viewOff:render

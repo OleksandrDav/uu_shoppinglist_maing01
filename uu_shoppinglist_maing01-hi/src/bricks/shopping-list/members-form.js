@@ -49,15 +49,9 @@ const MembersForm = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({owner, addMember, allUsers, shopUsers }) {
+  render({addMember, query, setQuery, searchedMembers }) {
     //@@viewOn:private
-    const [query, setQuery] = useState('')
-    const searchedMembers = useMemo(() => {
-      return allUsers.filter(user =>
-        !shopUsers.includes(user) && user !== owner &&
-        (user.name.toLowerCase().includes(query.toLowerCase()) || user.surname.toLowerCase().includes(query.toLowerCase()))
-      );
-    }, [allUsers, shopUsers, owner, query]);
+    
 
     //@@viewOff:private
 

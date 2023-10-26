@@ -33,27 +33,19 @@ const MembersBlock = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({ users, shoppingList }) {
+  render({
+    modal,
+    setModal,
+    owner,
+    addMember,
+    shopUsers,
+    setShopUsers,
+    query,
+    setQuery,
+    searchedMembers,
+    handleDeleteUser
+  }) {
     //@@viewOn:private
-    const [allUsers, setAllUsers] = useState(users)
-    const [shopUsers, setShopUsers] = useState([])
-    const [modal, setModal] = useState(false)
-
-    useEffect(() => {
-      const filteredUsers = allUsers.filter(user => (
-       shoppingList.memberId.includes(user.id)
-      ));
-      setShopUsers(filteredUsers);
-    }, [allUsers, shoppingList]);
-
-    const owner = allUsers.find(user => (
-      user.id === shoppingList.ownerId
-    ));
-
-    const addMember = (userId) => {
-      const newUser = allUsers.find(user => user.id === userId)
-      setShopUsers([...shopUsers, newUser])
-    }
 
     //@@viewOff:private
 
@@ -62,7 +54,7 @@ const MembersBlock = createVisualComponent({
 
     //@@viewOn:render
 
-    return(
+    return (
       <Uu5Elements.Block
         card="full"
         headerSeparator
@@ -81,9 +73,9 @@ const MembersBlock = createVisualComponent({
         <CreateModal
           visible={modal}
           setVisible={setModal}>
-            <MembersForm owner={owner} addMember={addMember} allUsers={allUsers} shopUsers={shopUsers}/> 
+          <MembersForm addMember={addMember} query={query} setQuery={setQuery} searchedMembers={searchedMembers}/>
         </CreateModal>
-        <MembersList owner={owner} shopUsers={shopUsers} setShopUsers={setShopUsers}/>
+        <MembersList owner={owner} shopUsers={shopUsers} handleDeleteUser={handleDeleteUser} />
       </Uu5Elements.Block>
     );
     //@@viewOff:render

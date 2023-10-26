@@ -32,37 +32,14 @@ const ProductList = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({shoppingList, filteredProducts, setShoppingList }) {
+  render({
+    filteredProducts, 
+    handleDeleteProduct, 
+    handleUpdateProductCompleted, 
+    handleUpdateProductName
+  }) {
     //@@viewOn:private
-    function handleDeleteProduct(id) {
-      const updatedProducts = shoppingList.products.filter((product) => product.id !== id)
-      setShoppingList({ ...shoppingList, products: updatedProducts })
-    }
-    function handleUpdateProductCompleted(id) {
-      const updatedShoppingList = { ...shoppingList };
-      const updatedProducts = updatedShoppingList.products.map((product) => {
-        if (product.id === id) {
-          return { ...product, completed: !product.completed };
-        }
-        return product;
-      });
 
-      updatedShoppingList.products = updatedProducts;
-      setShoppingList(updatedShoppingList);
-    }
-
-    function handleUpdateProductName(id, value) {
-      const updatedShoppingList = { ...shoppingList }
-      const updatedProduct = updatedShoppingList.products.map((product) => {
-        if (product.id === id) {
-          return { ...product, name: value }
-        }
-        return product
-      });
-
-      updatedShoppingList.products = updatedProduct;
-      setShoppingList(updatedShoppingList)
-    }
     //@@viewOff:private
 
     //@@viewOn:interface
