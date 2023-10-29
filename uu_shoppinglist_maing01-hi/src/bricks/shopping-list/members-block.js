@@ -8,6 +8,13 @@ import MembersForm from "./members-form.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
+const currentUser = {
+  id: '345id679',
+  name: 'Petr',
+  surname: 'Levytskyi',
+  login: 'o.test@gmail.com',
+  password: '12345678'
+}
 //@@viewOff:constants
 
 //@@viewOn:css
@@ -39,14 +46,13 @@ const MembersBlock = createVisualComponent({
     owner,
     addMember,
     shopUsers,
-    setShopUsers,
     query,
     setQuery,
     searchedMembers,
-    handleDeleteUser
+    handleDeleteUser,
+    handleLeaveCurrentUser
   }) {
     //@@viewOn:private
-
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -67,8 +73,14 @@ const MembersBlock = createVisualComponent({
             children: "Add users",
             primary: true,
             onClick: () => setModal(true)
+          },
+          currentUser.id &&
+          shopUsers.some(user => user.id === currentUser.id) && {
+            icon: 'uugds-delete',
+            children: 'Leave',
+            onClick: () => handleLeaveCurrentUser(currentUser.id)
           }
-        ]}
+        ].filter(Boolean)}
       >
         <CreateModal
           visible={modal}

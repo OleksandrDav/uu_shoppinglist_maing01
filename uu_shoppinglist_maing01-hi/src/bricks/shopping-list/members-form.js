@@ -63,10 +63,10 @@ const MembersForm = createVisualComponent({
     return (
       <div >
         <h1>Find new Member</h1>
-        <input 
-        placeholder='Search...'
-        value={query}
-        onChange={e => setQuery(e.target.value)}/>
+        <Uu5Forms.Text.Input
+          placeholder='Search...'
+          value={query}
+          onChange={e => setQuery(e.target.value)} />
         {searchedMembers.map(user => (
           <div key={user.id} className={Css.userBlock()}>
             <div>

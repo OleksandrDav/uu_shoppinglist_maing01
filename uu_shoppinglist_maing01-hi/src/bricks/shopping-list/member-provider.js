@@ -55,6 +55,11 @@ const MemberProvider = createComponent({
     function handleDeleteUser(id) {
       setShopUsers(shopUsers.filter(user => user.id !== id))
     }
+
+    const handleLeaveCurrentUser = (currentUser) => {
+      const updatedUsers = shopUsers.filter(user => user.id !== currentUser);
+      setShopUsers(updatedUsers);
+    };
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -71,7 +76,8 @@ const MemberProvider = createComponent({
       query,
       setQuery,
       searchedMembers,
-      handleDeleteUser
+      handleDeleteUser,
+      handleLeaveCurrentUser
     }
     return typeof children === "function" ? children(value) : children;
     //@@viewOff:render

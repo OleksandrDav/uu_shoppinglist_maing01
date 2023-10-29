@@ -139,7 +139,8 @@ let Home = createVisualComponent({
                   query,
                   setQuery,
                   searchedMembers,
-                  handleDeleteUser
+                  handleDeleteUser,
+                  handleLeaveCurrentUser
                 }) => (
                   <>
                     <MembersBlock
@@ -153,6 +154,7 @@ let Home = createVisualComponent({
                       setQuery={setQuery}
                       searchedMembers={searchedMembers}
                       handleDeleteUser={handleDeleteUser}
+                      handleLeaveCurrentUser={handleLeaveCurrentUser}
                     />
                   </>
                 )

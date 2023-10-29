@@ -5,6 +5,13 @@ import Uu5Elements from "uu5g05-elements";
 //@@viewOff:imports
 
 //@@viewOn:constants
+const currentUser =  {
+  id: '345id678',
+  name: 'Petr',
+  surname: 'Levytskyi',
+  login: 'o.test@gmail.com',
+  password: '12345678'
+}
 //@@viewOff:constants
 
 //@@viewOn:css
@@ -50,11 +57,14 @@ const MembersList = createVisualComponent({
           return (
             <Uu5Elements.ListItem
               key={user.id}
-              actionList={[{
+              actionList={[
+                owner.id === currentUser.id
+                ? {
                 icon: 'uugds-delete',
                 children: 'Delete',
                 onClick: () => handleDeleteUser(user.id)
-              }]}>
+              } : {}
+              ]}>
               <Uu5Elements.Grid flow='column' alignItems='center'>
                 <p>{user.name} {user.surname}</p>
               </Uu5Elements.Grid>
