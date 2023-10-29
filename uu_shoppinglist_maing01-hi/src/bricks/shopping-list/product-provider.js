@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createComponent, useMemo, useState } from "uu5g05";
+import { createComponent, useMemo, useState, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 //@@viewOff:imports
 
@@ -15,14 +15,20 @@ const ProductProvider = createComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    shoppingList: PropTypes.object.isRequired,
+    setShoppingList: PropTypes.func.isRequired,
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    shoppingList: {},
+    setShoppingList: () => { },
+  },
   //@@viewOff:defaultProps
 
-  render({shoppingList, setShoppingList, children}) {
+  render({ shoppingList, setShoppingList, children }) {
 
     //@@viewOn:private
     const [modal, setModal] = useState(false)
@@ -88,16 +94,19 @@ const ProductProvider = createComponent({
     }
 
     function handleUpdateProductName(id, value) {
-      const updatedShoppingList = { ...shoppingList }
-      const updatedProduct = updatedShoppingList.products.map((product) => {
-        if (product.id === id) {
-          return { ...product, name: value }
-        }
-        return product
+      setShoppingList(prevShoppingList => {
+        const updatedProducts = prevShoppingList.products.map(product => {
+          if (product.id === id) {
+            return { ...product, name: value };
+          }
+          return product;
+        });
+    
+        return {
+          ...prevShoppingList,
+          products: updatedProducts 
+        };
       });
-
-      updatedShoppingList.products = updatedProduct;
-      setShoppingList(updatedShoppingList)
     }
     //@@viewOff:private
 

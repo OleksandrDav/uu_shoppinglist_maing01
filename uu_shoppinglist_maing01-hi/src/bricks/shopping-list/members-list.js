@@ -1,11 +1,11 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, useEffect } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, useEffect, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 //@@viewOff:imports
 
 //@@viewOn:constants
-const currentUser =  {
+const currentUser = {
   id: '345id678',
   name: 'Petr',
   surname: 'Levytskyi',
@@ -28,16 +28,24 @@ const MembersList = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    owner: PropTypes.object.isRequired,
+    shopUsers: PropTypes.array.isRequired,
+    handleDeleteUser: PropTypes.func.isRequired
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    owner: {},
+    shopUsers: [],
+    handleDeleteUser: () => { }
+  },
   //@@viewOff:defaultProps
 
-  render({ owner, shopUsers, handleDeleteUser}) {
+  render({ owner, shopUsers, handleDeleteUser }) {
     //@@viewOn:private
-    
+
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -59,11 +67,11 @@ const MembersList = createVisualComponent({
               key={user.id}
               actionList={[
                 owner.id === currentUser.id
-                ? {
-                icon: 'uugds-delete',
-                children: 'Delete',
-                onClick: () => handleDeleteUser(user.id)
-              } : {}
+                  ? {
+                    icon: 'uugds-delete',
+                    children: 'Delete',
+                    onClick: () => handleDeleteUser(user.id)
+                  } : {}
               ]}>
               <Uu5Elements.Grid flow='column' alignItems='center'>
                 <p>{user.name} {user.surname}</p>

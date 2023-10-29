@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content } from "uu5g05";
+import { createVisualComponent, Utils, Content, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 //@@viewOff:imports
 
@@ -22,14 +22,20 @@ const ProductFilter = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    filter: PropTypes.string.isRequired,
+    setFilter: PropTypes.func.isRequired
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    filter: '',
+    setFilter: () => { }
+  },
   //@@viewOff:defaultProps
 
-  render({filter, setFilter}) {
+  render({ filter, setFilter }) {
     //@@viewOn:private
 
     //@@viewOff:private
@@ -38,18 +44,18 @@ const ProductFilter = createVisualComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-    
+
     return (
       <div>
         <label>Filter by completed</label>
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <option value="all">All</option>
-            <option value="completed">Completed</option>
-            <option value="notCompleted">Not Completed</option>
-          </select>
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="completed">Completed</option>
+          <option value="notCompleted">Not Completed</option>
+        </select>
       </div>
     );
     //@@viewOff:render

@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content } from "uu5g05";
+import { createVisualComponent, Utils, Content, PropTypes } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Config from "./config/config.js";
@@ -25,17 +25,27 @@ const ProductList = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    filteredProducts: PropTypes.array.isRequired,
+    handleDeleteProduct: PropTypes.func.isRequired,
+    handleUpdateProductCompleted: PropTypes.func.isRequired,
+    handleUpdateProductName: PropTypes.func.isRequired
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    filteredProducts: [],
+    handleDeleteProduct: () => { },
+    handleUpdateProductCompleted: () => { },
+    handleUpdateProductName: () => { }
+  },
   //@@viewOff:defaultProps
 
   render({
-    filteredProducts, 
-    handleDeleteProduct, 
-    handleUpdateProductCompleted, 
+    filteredProducts,
+    handleDeleteProduct,
+    handleUpdateProductCompleted,
     handleUpdateProductName
   }) {
     //@@viewOn:private

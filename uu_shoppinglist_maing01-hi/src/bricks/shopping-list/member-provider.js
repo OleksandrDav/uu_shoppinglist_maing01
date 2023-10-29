@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createComponent, useEffect, useMemo, useState } from "uu5g05";
+import { createComponent, useEffect, useMemo, useState, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 //@@viewOff:imports
 
@@ -15,11 +15,46 @@ const MemberProvider = createComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        surname: PropTypes.string.isRequired,
+        login: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired
+      })
+    ).isRequired,
+    shoppingList: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      ownerId: PropTypes.string.isRequired,
+      memberId: PropTypes.arrayOf(PropTypes.string).isRequired,
+      products: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          completed: PropTypes.bool.isRequired
+        })
+      ).isRequired,
+      archived: PropTypes.bool.isRequired
+    }).isRequired,
+    children: PropTypes.node 
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    users: [],
+    shoppingList: {
+      id: '',
+      name: '',
+      ownerId: '',
+      memberId: [],
+      products: [],
+      archived: false
+    }
+  },
   //@@viewOff:defaultProps
 
   render({ users, shoppingList, children }) {

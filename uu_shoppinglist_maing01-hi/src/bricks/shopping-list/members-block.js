@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, useEffect } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, useEffect, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import CreateModal from "./create-modal.js";
@@ -33,11 +33,33 @@ const MembersBlock = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    modal: PropTypes.bool.isRequired,
+    setModal: PropTypes.func.isRequired,
+    owner: PropTypes.object.isRequired,
+    addMember: PropTypes.func.isRequired,
+    shopUsers: PropTypes.array.isRequired,
+    query: PropTypes.string.isRequired,
+    setQuery: PropTypes.func.isRequired,
+    searchedMembers: PropTypes.array.isRequired,
+    handleDeleteUser: PropTypes.func.isRequired,
+    handleLeaveCurrentUser: PropTypes.func.isRequired
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    modal: false,
+    setModal: () => { },
+    owner: {},
+    addMember: () => { },
+    shopUsers: [],
+    query: '',
+    setQuery: () => { },
+    searchedMembers: [],
+    handleDeleteUser: () => { },
+    handleLeaveCurrentUser: () => { }
+  },
   //@@viewOff:defaultProps
 
   render({
@@ -85,7 +107,7 @@ const MembersBlock = createVisualComponent({
         <CreateModal
           visible={modal}
           setVisible={setModal}>
-          <MembersForm addMember={addMember} query={query} setQuery={setQuery} searchedMembers={searchedMembers}/>
+          <MembersForm addMember={addMember} query={query} setQuery={setQuery} searchedMembers={searchedMembers} />
         </CreateModal>
         <MembersList owner={owner} shopUsers={shopUsers} handleDeleteUser={handleDeleteUser} />
       </Uu5Elements.Block>

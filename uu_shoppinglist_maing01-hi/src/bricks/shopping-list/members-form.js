@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, useMemo } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, useMemo, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements, { Input } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
@@ -42,16 +42,26 @@ const MembersForm = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    addMember: PropTypes.func.isRequired,
+    query: PropTypes.string.isRequired,
+    setQuery: PropTypes.func.isRequired,
+    searchedMembers: PropTypes.array.isRequired
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    addMember: () => { },
+    query: '',
+    setQuery: () => { },
+    searchedMembers: []
+  },
   //@@viewOff:defaultProps
 
-  render({addMember, query, setQuery, searchedMembers }) {
+  render({ addMember, query, setQuery, searchedMembers }) {
     //@@viewOn:private
-    
+
 
     //@@viewOff:private
 
@@ -70,12 +80,12 @@ const MembersForm = createVisualComponent({
         {searchedMembers.map(user => (
           <div key={user.id} className={Css.userBlock()}>
             <div>
-              {user.name} {user.surname} 
+              {user.name} {user.surname}
             </div>
             <div className={Css.userBtns()}>
-              <button 
-              className={Css.myBtn()}
-              onClick={() => {addMember(user.id)}}>Add user</button>
+              <button
+                className={Css.myBtn()}
+                onClick={() => { addMember(user.id) }}>Add user</button>
             </div>
           </div>
         ))}

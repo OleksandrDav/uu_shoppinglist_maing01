@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Forms from "uu5g05-forms";
 import { Block, Button } from "uu5g05-elements";
@@ -24,11 +24,20 @@ const ProductForm = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    addNewProduct: PropTypes.func.isRequired,
+    product: PropTypes.shape({
+    }).isRequired,
+    setProduct: PropTypes.func.isRequired
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    addNewProduct: () => { },
+    product: {},
+    setProduct: () => { }
+  },
   //@@viewOff:defaultProps
 
   render({ addNewProduct, product, setProduct }) {

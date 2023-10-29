@@ -35,11 +35,46 @@ const ProductBlock = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    modal: PropTypes.bool.isRequired,
+    setModal: PropTypes.func.isRequired,
+    filter: PropTypes.string.isRequired,
+    setFilter: PropTypes.func.isRequired,
+    shoppingList: PropTypes.shape({
+    }).isRequired,
+    filteredProducts: PropTypes.array.isRequired,
+    setShoppingList: PropTypes.func.isRequired,
+    handleUpdateShopName: PropTypes.func.isRequired,
+    addNewProduct: PropTypes.func.isRequired,
+    product: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      completed: false
+    }).isRequired,
+    setProduct: PropTypes.func.isRequired,
+    handleDeleteProduct: PropTypes.func.isRequired,
+    handleUpdateProductCompleted: PropTypes.func.isRequired,
+    handleUpdateProductName: PropTypes.func.isRequired
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    modal: false,
+    setModal: () => { },
+    filter: 'all',
+    setFilter: () => { },
+    shoppingList: {},
+    filteredProducts: [],
+    setShoppingList: () => { },
+    handleUpdateShopName: () => { },
+    addNewProduct: () => { },
+    product: { name: '' },
+    setProduct: () => { },
+    handleDeleteProduct: () => { },
+    handleUpdateProductCompleted: () => { },
+    handleUpdateProductName: () => { }
+  },
   //@@viewOff:defaultProps
 
   render({
@@ -98,7 +133,7 @@ const ProductBlock = createVisualComponent({
             setProduct={setProduct} />
         </CreateModal>
         <ProductFilter filter={filter} setFilter={setFilter} />
-        <ProductList 
+        <ProductList
           filteredProducts={filteredProducts}
           handleDeleteProduct={handleDeleteProduct}
           handleUpdateProductCompleted={handleUpdateProductCompleted}

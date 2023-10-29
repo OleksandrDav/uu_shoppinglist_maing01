@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content } from "uu5g05";
+import { createVisualComponent, Utils, Content, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 //@@viewOff:imports
 
@@ -44,36 +44,42 @@ const CreateModal = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    visible: PropTypes.bool.isRequired,
+    setVisible: PropTypes.func.isRequired
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    visible: false,
+    setVisible: () => { }
+  },
   //@@viewOff:defaultProps
 
   render({ children, visible, setVisible }) {
     //@@viewOn:private
-      const rootClasses = [Css.myModal()]
-      if (visible) {
-        rootClasses.push(Css.active());
-      }
-      //@@viewOff:private
+    const rootClasses = [Css.myModal()]
+    if (visible) {
+      rootClasses.push(Css.active());
+    }
+    //@@viewOff:private
 
-      //@@viewOn:interface
-      //@@viewOff:interface
+    //@@viewOn:interface
+    //@@viewOff:interface
 
-      //@@viewOn:render
+    //@@viewOn:render
 
-      return (
-        <div className={rootClasses.join(' ')} onClick={() => setVisible(false)}>
-          <div className={Css.myModalContent()} onClick={(e) => { e.stopPropagation() }}>
-            {children}
-          </div>
+    return (
+      <div className={rootClasses.join(' ')} onClick={() => setVisible(false)}>
+        <div className={Css.myModalContent()} onClick={(e) => { e.stopPropagation() }}>
+          {children}
         </div>
-      );
-      //@@viewOff:render
-    },
-  });
+      </div>
+    );
+    //@@viewOff:render
+  },
+});
 
 //@@viewOn:exports
 export { CreateModal };
