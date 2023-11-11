@@ -27,6 +27,42 @@
       },
       "shoppingList/create": {
         "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "shoppingList/list": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "shoppingList/getSL": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "shoppingList/delete": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "shoppingList/archiveUpdate": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "shoppingList/nameUpdate": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "shoppingList/addUser": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "shoppingList/removeUser": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "shoppingList/addProduct": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "shoppingList/removeProduct": {
+        "sysStateList": ["active"],
         "profileList": ["Public"]
       }
     }
