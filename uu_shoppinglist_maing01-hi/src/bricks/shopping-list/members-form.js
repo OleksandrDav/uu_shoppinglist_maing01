@@ -3,6 +3,7 @@ import { createVisualComponent, Utils, Content, useState, useMemo, PropTypes } f
 import Config from "./config/config.js";
 import Uu5Elements, { Input } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
+import { Environment } from "uu_plus4u5g02";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -10,25 +11,7 @@ import Uu5Forms from "uu5g05-forms";
 
 //@@viewOn:css
 const Css = {
-  userBlock: () => Config.Css.css({
-    display: 'flex',
-    padding: '15px',
-    border: '2px solid teal',
-    marginTop: '15px',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  }),
-  userBtns: () => Config.Css.css({
-    display: 'flex',
-  }),
-  myBtn: () => Config.Css.css({
-    padding: "5px 15px",
-    color: "teal",
-    fontSize: "14px",
-    backgroundColor: "transparent",
-    border: "1px solid teal",
-    cursor: "pointer"
-  })
+
 };
 //@@viewOff:css
 
@@ -43,25 +26,17 @@ const MembersForm = createVisualComponent({
 
   //@@viewOn:propTypes
   propTypes: {
-    addMember: PropTypes.func.isRequired,
-    query: PropTypes.string.isRequired,
-    setQuery: PropTypes.func.isRequired,
-    searchedMembers: PropTypes.array.isRequired
   },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
   defaultProps: {
-    addMember: () => { },
-    query: '',
-    setQuery: () => { },
-    searchedMembers: []
   },
   //@@viewOff:defaultProps
 
-  render({ addMember, query, setQuery, searchedMembers }) {
+  render({ addMember }) {
     //@@viewOn:private
-
+    
 
     //@@viewOff:private
 
@@ -69,26 +44,19 @@ const MembersForm = createVisualComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
+    const comp = {
+      uu5Tag: "UuPlus4UPeople.Bricks.SearchWithResult",
+      props: {
+        baseUri: Environment.peopleBaseUri,
+        onPersonSelected: ({uuIdentity}) => addMember(uuIdentity)
+      }
+    }
+
+    const uu5StringSearchPerson = new Utils.Uu5String(comp)
 
     return (
       <div >
-        <h1>Find new Member</h1>
-        <Uu5Forms.Text.Input
-          placeholder='Search...'
-          value={query}
-          onChange={e => setQuery(e.target.value)} />
-        {searchedMembers.map(user => (
-          <div key={user.id} className={Css.userBlock()}>
-            <div>
-              {user.name} {user.surname}
-            </div>
-            <div className={Css.userBtns()}>
-              <button
-                className={Css.myBtn()}
-                onClick={() => { addMember(user.id) }}>Add user</button>
-            </div>
-          </div>
-        ))}
+        {uu5StringSearchPerson.toChildren()}
       </div>
     );
     //@@viewOff:render

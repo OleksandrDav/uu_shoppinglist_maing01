@@ -1,12 +1,13 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, useEffect, PropTypes } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, useEffect,useSession,  PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
+import { PersonItem } from "uu_plus4u5g02-elements"
 //@@viewOff:imports
 
 //@@viewOn:constants
 const currentUser = {
-  id: '345id678',
+  id: '7389-360-836-0000',
   name: 'Petr',
   surname: 'Levytskyi',
   login: 'o.test@gmail.com',
@@ -43,9 +44,9 @@ const MembersList = createVisualComponent({
   },
   //@@viewOff:defaultProps
 
-  render({ owner, shopUsers, handleDeleteUser }) {
+  render({ shoppingList, handleDeleteUser }) {
     //@@viewOn:private
-
+    const session = useSession()
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -56,25 +57,25 @@ const MembersList = createVisualComponent({
     return (
       <Uu5Elements.Grid rowGap={8}>
         <Uu5Elements.ListItem
-          key={owner.id}>
+          key={shoppingList.owner}>
           <Uu5Elements.Grid flow='column' alignItems='center'>
-            <p>{owner.name} {owner.surname} - I'm the owner</p>
+           <PersonItem uuIdentity={shoppingList.ownerId} subtitle="Owner" size="l"/>
           </Uu5Elements.Grid>
         </Uu5Elements.ListItem>
-        {shopUsers.map((user) => {
+        {shoppingList.memberId.map((user) => {
           return (
             <Uu5Elements.ListItem
-              key={user.id}
+              key={user}
               actionList={[
-                owner.id === currentUser.id
+                shoppingList.ownerId === currentUser.id
                   ? {
                     icon: 'uugds-delete',
                     children: 'Delete',
-                    onClick: () => handleDeleteUser(user.id)
+                    onClick: () => handleDeleteUser(user)
                   } : {}
               ]}>
               <Uu5Elements.Grid flow='column' alignItems='center'>
-                <p>{user.name} {user.surname}</p>
+                <PersonItem uuIdentity={user} subtitle="member" size="m"/>
               </Uu5Elements.Grid>
             </Uu5Elements.ListItem>
           )

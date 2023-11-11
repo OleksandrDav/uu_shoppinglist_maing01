@@ -7,8 +7,8 @@ import Config from "./config/config.js";
 const initialShoppingList = {
   id: '5fb2458d4b9e56',
   name: 'Shoppping List Name',
-  ownerId: '345id678',
-  memberId: ['345id679', '345id680'],
+  ownerId: '7389-360-836-0000',
+  memberId: ['5626-3282-9969-0000', '1132-8212-4841-0000'],
   products: [
     {
       id: 'un123',
@@ -28,51 +28,6 @@ const initialShoppingList = {
   ],
   archived: false
 }
-
-const users = [
-  {
-    id: '345id678',
-    name: 'Petr',
-    surname: 'Levytskyi',
-    login: 'o.test@gmail.com',
-    password: '12345678'
-  },
-  {
-    id: '345id679',
-    name: 'Valik',
-    surname: 'Reznik',
-    login: 'o.test@gmail.com',
-    password: '12345678'
-  },
-  {
-    id: '345id680',
-    name: 'Palik',
-    surname: 'Bondar',
-    login: 'o.test@gmail.com',
-    password: '12345678'
-  },
-  {
-    id: '345id681',
-    name: 'Jalik',
-    surname: 'Loper',
-    login: 'o.test@gmail.com',
-    password: '12345678'
-  },
-  {
-    id: '345id682',
-    name: 'Nalik',
-    surname: 'Koper',
-    login: 'o.test@gmail.com',
-    password: '12345678'
-  },
-  {
-    id: '345id683',
-    name: 'Balik',
-    surname: 'Black',
-    login: 'o.test@gmail.com',
-    password: '12345678'
-  }
-]
 //@@viewOff:constants
 
 //@@viewOn:helpers
@@ -100,7 +55,7 @@ const DetailProvider = createComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-    const value = {shoppingList, setShoppingList, users}
+    const value = {shoppingList, setShoppingList}
     return typeof children === "function" ? children(value) : children;
     //@@viewOff:render
   },

@@ -49,6 +49,7 @@ const ProductFilter = createVisualComponent({
       <div>
         <label>Filter by completed</label>
         <select
+          style={{margin: "15px"}}
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >

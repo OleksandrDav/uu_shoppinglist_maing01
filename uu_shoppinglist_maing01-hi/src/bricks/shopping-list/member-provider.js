@@ -16,15 +16,6 @@ const MemberProvider = createComponent({
 
   //@@viewOn:propTypes
   propTypes: {
-    users: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        surname: PropTypes.string.isRequired,
-        login: PropTypes.string.isRequired,
-        password: PropTypes.string.isRequired
-      })
-    ).isRequired,
     shoppingList: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
@@ -45,7 +36,6 @@ const MemberProvider = createComponent({
 
   //@@viewOn:defaultProps
   defaultProps: {
-    users: [],
     shoppingList: {
       id: '',
       name: '',
@@ -57,44 +47,25 @@ const MemberProvider = createComponent({
   },
   //@@viewOff:defaultProps
 
-  render({ users, shoppingList, children }) {
+  render({shoppingList, setShoppingList, children }) {
     //@@viewOn:private
-    const [allUsers, setAllUsers] = useState(users)
-    const [shopUsers, setShopUsers] = useState([])
     const [modal, setModal] = useState(false)
 
-    useEffect(() => {
-      const filteredUsers = allUsers.filter(user => (
-        shoppingList.memberId.includes(user.id)
-      ));
-      setShopUsers(filteredUsers);
-    }, [allUsers, shoppingList.memberId, shoppingList.ownerId]);
-
-    const owner = allUsers.find(user => (
-      user.id === shoppingList.ownerId
-    ));
-
-    const addMember = (userId) => {
-      const newUser = allUsers.find(user => user.id === userId)
-      setShopUsers([...shopUsers, newUser])
+    function addMember(uuIdentity) {
+      const updatedShoppingList = { ...shoppingList };
+      updatedShoppingList.memberId.push(uuIdentity)
+      setShoppingList(updatedShoppingList)
     }
-
-    const [query, setQuery] = useState('')
-    const searchedMembers = useMemo(() => {
-      return allUsers.filter(user =>
-        !shopUsers.includes(user) && user !== owner &&
-        (user.name.toLowerCase().includes(query.toLowerCase()) || user.surname.toLowerCase().includes(query.toLowerCase()))
-      );
-    }, [allUsers, shopUsers, owner, query]);
-
-    function handleDeleteUser(id) {
-      setShopUsers(shopUsers.filter(user => user.id !== id))
+    function handleDeleteUser(userId) {
+      const updatedShoppingList = { ...shoppingList }
+      updatedShoppingList.memberId = updatedShoppingList.memberId.filter(user => user !== userId )
+      setShoppingList(updatedShoppingList)
     }
-
-    const handleLeaveCurrentUser = (currentUser) => {
-      const updatedUsers = shopUsers.filter(user => user.id !== currentUser);
-      setShopUsers(updatedUsers);
-    };
+    function handleLeaveMemberUser(userId) {
+      const updatedShoppingList = { ...shoppingList }
+      updatedShoppingList.memberId = updatedShoppingList.memberId.filter(user => user !== userId )
+      setShoppingList(updatedShoppingList)
+    }
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -104,15 +75,11 @@ const MemberProvider = createComponent({
     const value = {
       modal,
       setModal,
-      owner,
+      shoppingList,
+      setShoppingList,
       addMember,
-      shopUsers,
-      setShopUsers,
-      query,
-      setQuery,
-      searchedMembers,
       handleDeleteUser,
-      handleLeaveCurrentUser
+      handleLeaveMemberUser
     }
     return typeof children === "function" ? children(value) : children;
     //@@viewOff:render

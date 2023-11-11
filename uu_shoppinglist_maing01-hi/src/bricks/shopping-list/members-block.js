@@ -9,7 +9,7 @@ import MembersForm from "./members-form.js";
 
 //@@viewOn:constants
 const currentUser = {
-  id: '345id679',
+  id: '5626-3282-9969-0000',
   name: 'Petr',
   surname: 'Levytskyi',
   login: 'o.test@gmail.com',
@@ -65,14 +65,11 @@ const MembersBlock = createVisualComponent({
   render({
     modal,
     setModal,
-    owner,
+    shoppingList,
+    setShoppingList,
     addMember,
-    shopUsers,
-    query,
-    setQuery,
-    searchedMembers,
     handleDeleteUser,
-    handleLeaveCurrentUser
+    handleLeaveMemberUser
   }) {
     //@@viewOn:private
     //@@viewOff:private
@@ -97,19 +94,19 @@ const MembersBlock = createVisualComponent({
             onClick: () => setModal(true)
           },
           currentUser.id &&
-          shopUsers.some(user => user.id === currentUser.id) && {
+          shoppingList.memberId.includes(currentUser.id) && {
             icon: 'uugds-delete',
             children: 'Leave',
-            onClick: () => handleLeaveCurrentUser(currentUser.id)
+            onClick: () => handleLeaveMemberUser(currentUser.id)
           }
         ].filter(Boolean)}
       >
         <CreateModal
           visible={modal}
           setVisible={setModal}>
-          <MembersForm addMember={addMember} query={query} setQuery={setQuery} searchedMembers={searchedMembers} />
+          <MembersForm  shoppingList={shoppingList} setShoppingList={setShoppingList} addMember={addMember}/>
         </CreateModal>
-        <MembersList owner={owner} shopUsers={shopUsers} handleDeleteUser={handleDeleteUser} />
+        <MembersList shoppingList={shoppingList} handleDeleteUser={handleDeleteUser}/>
       </Uu5Elements.Block>
     );
     //@@viewOff:render
