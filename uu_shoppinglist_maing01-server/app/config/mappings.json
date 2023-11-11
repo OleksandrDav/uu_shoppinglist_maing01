@@ -75,6 +75,11 @@
         "realization": "api/controllers/ShoppingListController.removeProduct",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "shoppingList/completedProduct": {
+        "realization": "api/controllers/ShoppingListController.completedProduct",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

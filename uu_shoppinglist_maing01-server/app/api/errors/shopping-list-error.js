@@ -290,7 +290,47 @@ const RemoveProduct = {
   },
 };
 
+const CompletedProduct = {
+  UC_CODE: `${SHOPPING_LIST_ERROR_PREFIX}completedProduct/`,
+  InvalidDtoIn: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${CompletedProduct.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+  ProductNotFound: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${CompletedProduct.UC_CODE}productNotFound`;
+      this.message = "Product not found.";
+    }
+  },
+  ShoppinglistMainDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${CompletedProduct.UC_CODE}shoppingListMainDoesNotExist`;
+      this.message = "UuObject shoppingListMain does not exist.";
+    }
+  },
+  ShoppinglistMainNotInCorrectState: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${CompletedProduct.UC_CODE}shoppingListMainNotInCorrectState`;
+      this.message = "UuObject shoppingListMain is not in correct state.";
+    }
+  },
+  ShoppinglistDoesNotExist: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${CompletedProduct.UC_CODE}shoppingListDoesNotExist`;
+      this.message = "Shopping List does not exist.";
+    }
+  },
+};
+
 module.exports = {
+  CompletedProduct,
   RemoveProduct,
   AddProduct,
   RemoveUser,

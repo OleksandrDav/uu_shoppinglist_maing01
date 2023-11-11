@@ -48,3 +48,9 @@ const shoppingListRemoveProductDtoInType = shape({
    id: id().isRequired(),
    productId: integer().isRequired()
 })
+
+const shoppingListCompletedProductDtoInType = shape({
+   id: id().isRequired(),
+   productId: integer().isRequired(),
+   completed: boolean().isRequired(),
+})

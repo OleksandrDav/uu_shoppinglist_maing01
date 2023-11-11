@@ -64,6 +64,10 @@
       "shoppingList/removeProduct": {
         "sysStateList": ["active"],
         "profileList": ["Public"]
+      },
+      "shoppingList/completedProduct": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
       }
     }
   }

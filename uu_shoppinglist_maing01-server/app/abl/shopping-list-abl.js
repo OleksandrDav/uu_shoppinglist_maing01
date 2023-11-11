@@ -19,6 +19,40 @@ class ShoppingListAbl {
     this.dao = DaoFactory.getDao("shoppingList");
   }
 
+  async completedProduct(awid, dtoIn, session, authorizationResult) {
+    let uuAppErrorMap = {};
+
+    const validationResult = this.validator.validate("shoppingListCompletedProductDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      uuAppErrorMap,
+      Warnings.CompletedProduct.UnsupportedKeys.code,
+      Errors.CompletedProduct.InvalidDtoIn
+    );
+
+    const shoppingList = await this.dao.get(awid, dtoIn.id);
+    if (!shoppingList) {
+      throw new Errors.CompletedProduct.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+    }
+
+    const productIndex = shoppingList.products.findIndex((product) => product.id === dtoIn.productId);
+
+    if (productIndex !== -1) {
+      shoppingList.products[productIndex].completed = dtoIn.completed;
+      await this.dao.updateProducts(shoppingList);
+    } else {
+      throw new Errors.CompletedProduct.ProductNotFound({ uuAppErrorMap }, { productId: dtoIn.productId });
+    }
+
+    const dtoOut = {
+      shoppingList,
+      uuAppErrorMap,
+    };
+
+    return dtoOut;
+  }
+
   async removeProduct(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
@@ -49,7 +83,12 @@ class ShoppingListAbl {
       throw new Errors.RemoveProduct.ProductNotFound({ uuAppErrorMap }, { productId: dtoIn.productId });
     }
 
-    return { uuAppErrorMap };
+    const dtoOut = {
+      shoppingList,
+      uuAppErrorMap,
+    };
+  
+    return dtoOut;
   }
 
   async addProduct(awid, dtoIn, session, authorizationResult) {
@@ -79,7 +118,12 @@ class ShoppingListAbl {
   
     await this.dao.updateProducts(shoppingList);
   
-    return { uuAppErrorMap };
+    const dtoOut = {
+      shoppingList,
+      uuAppErrorMap,
+    };
+  
+    return dtoOut;
   }
 
   async removeUser(awid, dtoIn, session, authorizationResult) {
@@ -105,7 +149,12 @@ class ShoppingListAbl {
       await this.dao.updateMembers(shoppingList);
     }
 
-    return { uuAppErrorMap };
+    const dtoOut = {
+      shoppingList,
+      uuAppErrorMap,
+    };
+  
+    return dtoOut;
   }
 
   async addUser(awid, dtoIn, session, authorizationResult) {
@@ -129,7 +178,12 @@ class ShoppingListAbl {
 
     await this.dao.updateMembers(shoppingList);
 
-    return { uuAppErrorMap };
+    const dtoOut = {
+      shoppingList,
+      uuAppErrorMap,
+    };
+  
+    return dtoOut;
   }
 
   async nameUpdate(awid, dtoIn, session, authorizationResult) {
@@ -154,7 +208,12 @@ class ShoppingListAbl {
     shoppingList.name = dtoIn.name;
     await this.dao.updateName(shoppingList);
 
-    return { uuAppErrorMap };
+    const dtoOut = {
+      shoppingList,
+      uuAppErrorMap,
+    };
+  
+    return dtoOut;
   }
 
   async archiveUpdate(awid, dtoIn, session, authorizationResult) {
@@ -179,9 +238,12 @@ class ShoppingListAbl {
     shoppingList.archived = dtoIn.archived;
     await this.dao.updateArchiveState(shoppingList);
 
-    return { 
-      uuAppErrorMap 
+    const dtoOut = {
+      shoppingList,
+      uuAppErrorMap,
     };
+  
+    return dtoOut;
   }
 
   async delete(awid, dtoIn, session, authorizationResult) {
@@ -204,9 +266,12 @@ class ShoppingListAbl {
 
     await this.dao.delete(awid, dtoIn.id);
 
-    return { 
-      uuAppErrorMap 
+    const dtoOut = {
+      shoppingList,
+      uuAppErrorMap,
     };
+  
+    return dtoOut;
 
   }
 

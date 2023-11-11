@@ -33,22 +33,27 @@ const Warnings = {
    },
    AddUser: {
       UnsupportedKeys: {
-         code: `${Errors.NameUpdate.UC_CODE}unsupportedKeys`,
+         code: `${Errors.AddUser.UC_CODE}unsupportedKeys`,
       },
    },
    RemoveUser: {
       UnsupportedKeys: {
-         code: `${Errors.NameUpdate.UC_CODE}unsupportedKeys`,
+         code: `${Errors.RemoveUser.UC_CODE}unsupportedKeys`,
       },
    },
    AddProduct: {
       UnsupportedKeys: {
-         code: `${Errors.NameUpdate.UC_CODE}unsupportedKeys`,
+         code: `${Errors.AddProduct.UC_CODE}unsupportedKeys`,
       },
    },
    RemoveProduct: {
       UnsupportedKeys: {
-         code: `${Errors.NameUpdate.UC_CODE}unsupportedKeys`,
+         code: `${Errors.RemoveProduct.UC_CODE}unsupportedKeys`,
+      },
+   },
+   CompletedProduct: {
+      UnsupportedKeys: {
+         code: `${Errors.CompletedProduct.UC_CODE}unsupportedKeys`,
       },
    },
 }
