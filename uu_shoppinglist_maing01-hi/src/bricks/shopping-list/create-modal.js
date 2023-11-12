@@ -23,6 +23,7 @@ const Css = {
     background: 'white',
     borderRadius: '16px',
     minWidth: '250px',
+    maxWidth: "800px"
   }),
 
   active: () => Config.Css.css({
