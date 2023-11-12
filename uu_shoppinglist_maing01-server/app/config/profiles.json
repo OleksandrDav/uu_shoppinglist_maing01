@@ -4,7 +4,7 @@
     "useCaseMap": {}
   },
   "*": {
-    "profileList": ["Authorities","Executives","AwidLicenseOwner","Public","Authenticated","AwidInitiator"],
+    "profileList": ["Authorities","Executives","StandartUser","AwidLicenseOwner","Public","Authenticated","AwidInitiator"],
     "useCaseMap": {
       "sys/uuAppWorkspace/init": {
         "sysStateList": ["created","assigned"],
@@ -27,47 +27,47 @@
       },
       "shoppingList/create": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/list": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/getSL": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/delete": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/archiveUpdate": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/nameUpdate": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/addUser": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/removeUser": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/addProduct": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/removeProduct": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       },
       "shoppingList/completedProduct": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["StandartUser"]
       }
     }
   }
