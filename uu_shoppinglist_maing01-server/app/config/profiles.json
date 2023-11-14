@@ -4,7 +4,7 @@
     "useCaseMap": {}
   },
   "*": {
-    "profileList": ["Authorities","Executives","StandartUser","AwidLicenseOwner","Public","Authenticated","AwidInitiator"],
+    "profileList": ["Authorities","Executives","StandardUser","AwidLicenseOwner","Public","Authenticated","AwidInitiator"],
     "useCaseMap": {
       "sys/uuAppWorkspace/init": {
         "sysStateList": ["created","assigned"],
@@ -27,43 +27,43 @@
       },
       "shoppingList/create": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/list": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/get": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/delete": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/update": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/user/add": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/user/remove": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/product/add": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/product/remove": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       },
       "shoppingList/product/setCompleted": {
         "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
+        "profileList": ["StandardUser"]
       }
     }
   }
