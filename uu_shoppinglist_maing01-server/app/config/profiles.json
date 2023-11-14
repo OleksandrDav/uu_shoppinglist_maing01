@@ -33,7 +33,7 @@
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       },
-      "shoppingList/getSL": {
+      "shoppingList/get": {
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       },
@@ -41,31 +41,27 @@
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       },
-      "shoppingList/archiveUpdate": {
+      "shoppingList/update": {
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       },
-      "shoppingList/nameUpdate": {
+      "shoppingList/user/add": {
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       },
-      "shoppingList/addUser": {
+      "shoppingList/user/remove": {
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       },
-      "shoppingList/removeUser": {
+      "shoppingList/product/add": {
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       },
-      "shoppingList/addProduct": {
+      "shoppingList/product/remove": {
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       },
-      "shoppingList/removeProduct": {
-        "sysStateList": ["active"],
-        "profileList": ["StandartUser"]
-      },
-      "shoppingList/completedProduct": {
+      "shoppingList/product/setCompleted": {
         "sysStateList": ["active"],
         "profileList": ["StandartUser"]
       }

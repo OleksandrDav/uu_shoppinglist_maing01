@@ -19,15 +19,11 @@ const shoppingListDeleteDtoInType = shape({
    id: id().isRequired()
 });
 
-const shoppingListArchiveUpdateDtoInType = shape({
+const shoppingListUpdateDtoInType = shape({
    id: id().isRequired(),
-   archived: boolean().isRequired(),
-});
-
-const shoppingListNameUpdateDtoInType = shape({
-   id: id().isRequired(),
-   name: string().isRequired(),
-});
+   name: string(),
+   archived: boolean(),
+})
 
 const shoppingListAddUserDtoInType = shape({
    id: id().isRequired(),

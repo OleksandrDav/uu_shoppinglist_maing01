@@ -19,7 +19,7 @@ class ShoppingListAbl {
     this.dao = DaoFactory.getDao("shoppingList");
   }
 
-  async completedProduct(awid, dtoIn, session, authorizationResult) {
+  async setCompleted(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     const validationResult = this.validator.validate("shoppingListCompletedProductDtoInType", dtoIn);
@@ -87,7 +87,7 @@ class ShoppingListAbl {
       shoppingList,
       uuAppErrorMap,
     };
-  
+
     return dtoOut;
   }
 
@@ -102,27 +102,27 @@ class ShoppingListAbl {
       Warnings.AddProduct.UnsupportedKeys.code,
       Errors.AddProduct.InvalidDtoIn
     );
-  
+
     const shoppingList = await this.dao.get(awid, dtoIn.id);
     if (!shoppingList) {
       throw new Errors.AddProduct.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
-  
+
     const product = {
       id: Date.now(),
       name: dtoIn.product,
       completed: false,
     };
-  
+
     shoppingList.products.push(product);
-  
+
     await this.dao.update(shoppingList);
-  
+
     const dtoOut = {
       shoppingList,
       uuAppErrorMap,
     };
-  
+
     return dtoOut;
   }
 
@@ -153,7 +153,7 @@ class ShoppingListAbl {
       shoppingList,
       uuAppErrorMap,
     };
-  
+
     return dtoOut;
   }
 
@@ -182,67 +182,42 @@ class ShoppingListAbl {
       shoppingList,
       uuAppErrorMap,
     };
-  
+
     return dtoOut;
   }
 
-  async nameUpdate(awid, dtoIn, session, authorizationResult) {
+  async update(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
-    const validationResult = this.validator.validate("shoppingListNameUpdateDtoInType", dtoIn);
+    // Validate common fields in both cases
+    const validationResult = this.validator.validate("shoppingListUpdateDtoInType", dtoIn);
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
       uuAppErrorMap,
-      Warnings.NameUpdate.UnsupportedKeys.code,
-      Errors.NameUpdate.InvalidDtoIn
+      Warnings.Update.UnsupportedKeys.code,
+      Errors.Update.InvalidDtoIn
     );
 
     const shoppingList = await this.dao.get(awid, dtoIn.id);
     if (!shoppingList) {
-      throw new Errors.NameUpdate.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
+      throw new Errors.Update.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
-    // Check authorization if needed
 
-    shoppingList.name = dtoIn.name;
+    if (dtoIn.name !== undefined) {
+      shoppingList.name = dtoIn.name;
+    }
+    if (dtoIn.archived !== undefined) {
+      shoppingList.archived = dtoIn.archived;
+    }
     await this.dao.update(shoppingList);
 
     const dtoOut = {
       shoppingList,
       uuAppErrorMap,
     };
-  
-    return dtoOut;
-  }
 
-  async archiveUpdate(awid, dtoIn, session, authorizationResult) {
-    let uuAppErrorMap = {};
-
-    const validationResult = this.validator.validate("shoppingListArchiveUpdateDtoInType", dtoIn);
-    uuAppErrorMap = ValidationHelper.processValidationResult(
-      dtoIn,
-      validationResult,
-      uuAppErrorMap,
-      Warnings.ArchiveUpdate.UnsupportedKeys.code,
-      Errors.ArchiveUpdate.InvalidDtoIn
-    );
-
-    const shoppingList = await this.dao.get(awid, dtoIn.id);
-    if (!shoppingList) {
-      throw new Errors.ArchiveUpdate.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
-    }
-
-    // Check authorization if needed
-
-    shoppingList.archived = dtoIn.archived;
-    await this.dao.update(shoppingList);
-
-    const dtoOut = {
-      shoppingList,
-      uuAppErrorMap,
-    };
-  
     return dtoOut;
   }
 
@@ -270,7 +245,7 @@ class ShoppingListAbl {
       shoppingList,
       uuAppErrorMap,
     };
-  
+
     return dtoOut;
 
   }
@@ -341,7 +316,7 @@ class ShoppingListAbl {
       Warnings.Create.UnsupportedKeys.code,
       Errors.Create.InvalidDtoIn
     );
-    
+
     // get uuIdentity information
     const uuIdentity = session.getIdentity().getUuIdentity();
 

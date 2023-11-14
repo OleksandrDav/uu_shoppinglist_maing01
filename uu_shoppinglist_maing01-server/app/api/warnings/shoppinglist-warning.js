@@ -21,14 +21,9 @@ const Warnings = {
          code: `${Errors.Delete.UC_CODE}unsupportedKeys`,
       },
    },
-   ArchiveUpdate: {
+   Update: {
       UnsupportedKeys: {
-         code: `${Errors.ArchiveUpdate.UC_CODE}unsupportedKeys`,
-      },
-   },
-   NameUpdate: {
-      UnsupportedKeys: {
-         code: `${Errors.NameUpdate.UC_CODE}unsupportedKeys`,
+         code: `${Errors.Update.UC_CODE}unsupportedKeys`,
       },
    },
    AddUser: {

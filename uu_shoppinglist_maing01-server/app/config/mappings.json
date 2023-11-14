@@ -36,7 +36,7 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
-      "shoppingList/getSL": {
+      "shoppingList/get": {
         "realization": "api/controllers/ShoppingListController.getSL",
         "httpMethod": "GET",
         "type": "CMD"
@@ -46,38 +46,33 @@
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "shoppingList/archiveUpdate": {
-        "realization": "api/controllers/ShoppingListController.archiveUpdate",
+      "shoppingList/update": {
+        "realization": "api/controllers/ShoppingListController.update",
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "shoppingList/nameUpdate": {
-        "realization": "api/controllers/ShoppingListController.nameUpdate",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
-      "shoppingList/addUser": {
+      "shoppingList/user/add": {
         "realization": "api/controllers/ShoppingListController.addUser",
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "shoppingList/removeUser": {
+      "shoppingList/user/remove": {
         "realization": "api/controllers/ShoppingListController.removeUser",
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "shoppingList/addProduct": {
+      "shoppingList/product/add": {
         "realization": "api/controllers/ShoppingListController.addProduct",
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "shoppingList/removeProduct": {
+      "shoppingList/product/remove": {
         "realization": "api/controllers/ShoppingListController.removeProduct",
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "shoppingList/completedProduct": {
-        "realization": "api/controllers/ShoppingListController.completedProduct",
+      "shoppingList/product/setCompleted": {
+        "realization": "api/controllers/ShoppingListController.setCompleted",
         "httpMethod": "POST",
         "type": "CMD"
       }

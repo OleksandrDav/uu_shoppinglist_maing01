@@ -91,39 +91,7 @@ const Delete = {
   },
 };
 
-const ArchiveUpdate = {
-  UC_CODE: `${SHOPPING_LIST_ERROR_PREFIX}archiveUpdate/`,
-  InvalidDtoIn: class extends ShoppinglistMainUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${ArchiveUpdate.UC_CODE}invalidDtoIn`;
-      this.message = "DtoIn is not valid.";
-    }
-  },
-  ShoppinglistMainDoesNotExist: class extends ShoppinglistMainUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${ArchiveUpdate.UC_CODE}shoppingListMainDoesNotExist`;
-      this.message = "UuObject shoppingListMain does not exist.";
-    }
-  },
-  ShoppinglistMainNotInCorrectState: class extends ShoppinglistMainUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${ArchiveUpdate.UC_CODE}shoppingListMainNotInCorrectState`;
-      this.message = "UuObject shoppingListMain is not in correct state.";
-    }
-  },
-  ShoppinglistDoesNotExist: class extends ShoppinglistMainUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${ArchiveUpdate.UC_CODE}shoppingListDoesNotExist`;
-      this.message = "Shopping List does not exist.";
-    }
-  },
-};
-
-const NameUpdate = {
+const Update = {
   UC_CODE: `${SHOPPING_LIST_ERROR_PREFIX}nameUpdate/`,
   InvalidDtoIn: class extends ShoppinglistMainUseCaseError {
     constructor() {
@@ -335,8 +303,7 @@ module.exports = {
   AddProduct,
   RemoveUser,
   AddUser,
-  NameUpdate,
-  ArchiveUpdate,
+  Update,
   Delete,
   GetSL,
   List,
