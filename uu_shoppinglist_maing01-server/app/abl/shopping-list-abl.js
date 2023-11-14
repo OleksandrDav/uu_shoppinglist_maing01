@@ -40,7 +40,7 @@ class ShoppingListAbl {
 
     if (productIndex !== -1) {
       shoppingList.products[productIndex].completed = dtoIn.completed;
-      await this.dao.updateProducts(shoppingList);
+      await this.dao.update(shoppingList);
     } else {
       throw new Errors.CompletedProduct.ProductNotFound({ uuAppErrorMap }, { productId: dtoIn.productId });
     }
@@ -78,7 +78,7 @@ class ShoppingListAbl {
     // If the product is found, remove it
     if (productIndex !== -1) {
       shoppingList.products.splice(productIndex, 1);
-      await this.dao.updateProducts(shoppingList);
+      await this.dao.update(shoppingList);
     } else {
       throw new Errors.RemoveProduct.ProductNotFound({ uuAppErrorMap }, { productId: dtoIn.productId });
     }
@@ -116,7 +116,7 @@ class ShoppingListAbl {
   
     shoppingList.products.push(product);
   
-    await this.dao.updateProducts(shoppingList);
+    await this.dao.update(shoppingList);
   
     const dtoOut = {
       shoppingList,
@@ -146,7 +146,7 @@ class ShoppingListAbl {
     const userIdIndex = shoppingList.memberId.indexOf(dtoIn.userId);
     if (userIdIndex !== -1) {
       shoppingList.memberId.splice(userIdIndex, 1);
-      await this.dao.updateMembers(shoppingList);
+      await this.dao.update(shoppingList);
     }
 
     const dtoOut = {
@@ -176,7 +176,7 @@ class ShoppingListAbl {
 
     shoppingList.memberId.push(dtoIn.userId);
 
-    await this.dao.updateMembers(shoppingList);
+    await this.dao.update(shoppingList);
 
     const dtoOut = {
       shoppingList,
@@ -206,7 +206,7 @@ class ShoppingListAbl {
     // Check authorization if needed
 
     shoppingList.name = dtoIn.name;
-    await this.dao.updateName(shoppingList);
+    await this.dao.update(shoppingList);
 
     const dtoOut = {
       shoppingList,
@@ -236,7 +236,7 @@ class ShoppingListAbl {
     // Check authorization if needed
 
     shoppingList.archived = dtoIn.archived;
-    await this.dao.updateArchiveState(shoppingList);
+    await this.dao.update(shoppingList);
 
     const dtoOut = {
       shoppingList,
