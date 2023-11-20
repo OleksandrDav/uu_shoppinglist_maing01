@@ -4,6 +4,13 @@ const shoppingListCreateDtoInType = shape({
    name: string(3, 255).isRequired()
 })
 
+const shoppingListListByIdentityDtoInType = shape({
+   pageInfo: shape({
+      pageIndex: integer(),
+      pageSize: integer(),
+   }),
+});
+
 const shoppingListListDtoInType = shape({
    pageInfo: shape({
       pageIndex: integer(),

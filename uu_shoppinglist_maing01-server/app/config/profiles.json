@@ -33,7 +33,7 @@
         "sysStateList": ["active"],
         "profileList": ["StandardUser"]
       },
-      "shoppingList/list": {
+      "shoppingList/listByIdentity": {
         "sysStateList": ["active"],
         "profileList": ["StandardUser"]
       },
@@ -68,6 +68,10 @@
       "shoppingList/product/setCompleted": {
         "sysStateList": ["active"],
         "profileList": ["StandardUser"]
+      },
+      "shoppingList/list": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
       }
     }
   }

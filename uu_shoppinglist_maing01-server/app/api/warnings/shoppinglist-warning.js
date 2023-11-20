@@ -6,6 +6,11 @@ const Warnings = {
          code: `${Errors.Create.UC_CODE}unsupportedKeys`,
       },
    },
+   ListByIdentity: {
+      UnsupportedKeys: {
+         code: `${Errors.ListByIdentity.UC_CODE}unsupportedKeys`,
+      },
+   },
    List: {
       UnsupportedKeys: {
          code: `${Errors.List.UC_CODE}unsupportedKeys`,

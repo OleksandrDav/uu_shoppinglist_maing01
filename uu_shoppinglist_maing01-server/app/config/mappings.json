@@ -36,8 +36,8 @@
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "shoppingList/list": {
-        "realization": "api/controllers/ShoppingListController.list",
+      "shoppingList/listByIdentity": {
+        "realization": "api/controllers/ShoppingListController.listByIdentity",
         "httpMethod": "GET",
         "type": "CMD"
       },
@@ -79,6 +79,11 @@
       "shoppingList/product/setCompleted": {
         "realization": "api/controllers/ShoppingListController.setCompleted",
         "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "shoppingList/list": {
+        "realization": "api/controllers/ShoppingListController.list",
+        "httpMethod": "GET",
         "type": "CMD"
       }
     }

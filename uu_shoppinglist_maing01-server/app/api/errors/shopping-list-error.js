@@ -15,13 +15,13 @@ const Create = {
   },
 };
 
-const List = {
-  UC_CODE: `${SHOPPING_LIST_ERROR_PREFIX}list/`,
+const ListByIdentity = {
+  UC_CODE: `${SHOPPING_LIST_ERROR_PREFIX}listByIdentity/`,
 
   InvalidDtoIn: class extends ShoppinglistMainUseCaseError {
     constructor() {
       super(...arguments);
-      this.code = `${List.UC_CODE}invalidDtoIn`;
+      this.code = `${ListByIdentity.UC_CODE}invalidDtoIn`;
       this.message = "DtoIn is not valid.";
     }
   },
@@ -297,7 +297,20 @@ const CompletedProduct = {
   },
 };
 
+const List = {
+  UC_CODE: `${SHOPPING_LIST_ERROR_PREFIX}list/`,
+  
+  InvalidDtoIn: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+};
+
 module.exports = {
+  List,
   CompletedProduct,
   RemoveProduct,
   AddProduct,
@@ -306,6 +319,6 @@ module.exports = {
   Update,
   Delete,
   GetSL,
-  List,
+  ListByIdentity,
   Create
 };

@@ -19,6 +19,29 @@ class ShoppingListAbl {
     this.dao = DaoFactory.getDao("shoppingList");
   }
 
+  async list(awid, dtoIn, session, authorizationResult) {
+    let uuAppErrorMap = {};
+
+    // Validate input DTO
+    const validationResult = this.validator.validate("shoppingListListDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      uuAppErrorMap,
+      Warnings.List.UnsupportedKeys.code,
+      Errors.List.InvalidDtoIn
+    );
+
+    const shoppingLists = await this.dao.list(awid, dtoIn.pageInfo);
+
+    const dtoOut = {
+      shoppingLists,
+      uuAppErrorMap,
+    };
+
+    return dtoOut;
+  }
+
   async setCompleted(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
@@ -276,17 +299,17 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async list(awid, dtoIn, session) {
+  async listByIdentity(awid, dtoIn, session) {
     let uuAppErrorMap = {};
 
-    const validationResult = this.validator.validate("shoppingListListDtoInType", dtoIn);
+    const validationResult = this.validator.validate("shoppingListListByIdentityDtoInType", dtoIn);
 
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
       uuAppErrorMap,
-      Warnings.List.UnsupportedKeys.code,
-      Errors.List.InvalidDtoIn
+      Warnings.ListByIdentity.UnsupportedKeys.code,
+      Errors.ListByIdentity.InvalidDtoIn
     );
 
     const uuIdentity = session.getIdentity().getUuIdentity();
@@ -295,7 +318,7 @@ class ShoppingListAbl {
     if (!dtoIn.pageInfo.pageSize) dtoIn.pageInfo.pageSize = DEFAULTS.pageSize;
     if (!dtoIn.pageInfo.pageIndex) dtoIn.pageInfo.pageIndex = DEFAULTS.pageIndex;
 
-    const shoppingLists = await this.dao.list(awid, uuIdentity, dtoIn.pageInfo);
+    const shoppingLists = await this.dao.listByIdentity(awid, uuIdentity, dtoIn.pageInfo);
     const dtoOut = {
       ...shoppingLists,
       uuAppErrorMap,

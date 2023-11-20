@@ -12,13 +12,20 @@ class ShoppingListMongo extends UuObjectDao {
     return await super.insertOne(shoppingList);
   }
 
-  async list(awid, uuIdentity, pageInfo) {
+  async listByIdentity(awid, uuIdentity, pageInfo) {
     const query = {
       awid,
       $or: [
         { ownerId: uuIdentity },
         { memberId: uuIdentity },
       ],
+    };
+
+    return await super.find(query, pageInfo);
+  }
+  async list(awid, pageInfo) {
+    const query = {
+      awid,
     };
 
     return await super.find(query, pageInfo);
