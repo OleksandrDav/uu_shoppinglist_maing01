@@ -25,6 +25,10 @@
         "sysStateList": ["created"],
         "profileList": ["Public","AwidLicenseOwner"]
       },
+      "migrateSchemas": {
+        "sysStateList": ["restricted"],
+        "profileList": ["AwidInitiator"]
+      },
       "shoppingList/create": {
         "sysStateList": ["active"],
         "profileList": ["StandardUser"]

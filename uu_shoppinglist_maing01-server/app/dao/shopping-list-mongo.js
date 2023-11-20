@@ -4,7 +4,8 @@ const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
 class ShoppingListMongo extends UuObjectDao {
 
   async createSchema() {
-    await super.createIndex({ ownerId: 1, memberId: 1, archived: 1 });
+    await super.createIndex({awid: 1, ownerId: 1});
+    await super.createIndex({awid: 1, memberId: 1});
   }
 
   async create(shoppingList) {

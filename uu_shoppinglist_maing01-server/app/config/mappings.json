@@ -26,6 +26,11 @@
         "httpMethod": "GET",
         "type": "UVE"
       },
+      "migrateSchemas": {
+        "realization": "api/controllers/ShoppinglistMainController.migrateSchemas",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
       "shoppingList/create": {
         "realization": "api/controllers/ShoppingListController.create",
         "httpMethod": "POST",

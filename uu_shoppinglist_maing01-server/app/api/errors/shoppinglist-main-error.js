@@ -38,6 +38,19 @@ const Init = {
   },
 };
 
+const MigrateSchema = {
+  UC_CODE: `${ShoppinglistMainUseCaseError.ERROR_PREFIX}migrateSchema/`,
+
+  SchemaDaoCreateSchemaFailed: class extends ShoppinglistMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${MigrateSchema.UC_CODE}schemaDaoCreateSchemaFailed`;
+      this.message = "Create schema by Dao createSchema failed.";
+    }
+  },
+};
 module.exports = {
   Init,
+  MigrateSchema
 };

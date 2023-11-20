@@ -34,7 +34,7 @@ class ShoppinglistMainAbl {
     );
 
     // HDS 2
-    const schemas = ["shoppinglistMain"];
+    const schemas = ["shoppinglistMain", "shoppingList"];
     let schemaCreateResults = schemas.map(async (schema) => {
       try {
         return await DaoFactory.getDao(schema).createSchema();
@@ -113,6 +113,23 @@ class ShoppinglistMainAbl {
     };
   }
 
+  async migrateSchemas() {
+    const uuAppErrorMap = {}
+    const schemas = ["shoppinglistMain", "shoppingList"];
+    let schemaCreateResults = schemas.map(async (schema) => {
+      try {
+        return await DaoFactory.getDao(schema).createSchema();
+      } catch (e) {
+        // A3
+        throw new Errors.MigrateSchema.SchemaDaoCreateSchemaFailed({ uuAppErrorMap }, { schema }, e);
+      }
+    });
+    await Promise.all(schemaCreateResults);
+
+    return {
+      uuAppErrorMap,
+    };
+  }
   async load(uri, session, uuAppErrorMap = {}) {
     // HDS 1
     const dtoOut = await UuAppWorkspace.load(uri, session, uuAppErrorMap);

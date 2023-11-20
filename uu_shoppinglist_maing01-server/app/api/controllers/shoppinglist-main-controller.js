@@ -13,6 +13,10 @@ class ShoppinglistMainController {
   loadBasicData(ucEnv) {
     return ShoppinglistMainAbl.loadBasicData(ucEnv.getUri(), ucEnv.getSession());
   }
+
+  migrateSchemas(ucEnv) {
+    return ShoppinglistMainAbl.migrateSchemas();
+  }
 }
 
 module.exports = new ShoppinglistMainController();
