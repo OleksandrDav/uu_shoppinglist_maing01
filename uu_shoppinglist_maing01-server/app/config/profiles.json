@@ -4,7 +4,7 @@
     "useCaseMap": {}
   },
   "*": {
-    "profileList": ["Authorities","Executives","StandardUser","AwidLicenseOwner","Public","Authenticated","AwidInitiator"],
+    "profileList": ["Authorities","Executives","StandardUsers","AwidLicenseOwner","Public","Authenticated","AwidInitiator"],
     "useCaseMap": {
       "sys/uuAppWorkspace/init": {
         "sysStateList": ["created","assigned"],
@@ -31,47 +31,47 @@
       },
       "shoppingList/create": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/listByIdentity": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["StandardUsers"]
       },
       "shoppingList/get": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/delete": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/update": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/user/add": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/user/remove": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/product/add": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/product/remove": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/product/setCompleted": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUser"]
+        "profileList": ["Authorities", "Executives","StandardUsers"]
       },
       "shoppingList/list": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["Authorities", "Executives"]
       }
     }
   }
