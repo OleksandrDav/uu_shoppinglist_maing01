@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, Lsi } from "uu5g05";
+import { Utils, createVisualComponent, useSession, Lsi, useRoute } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import { withRoute } from "uu_plus4u5g02-app";
@@ -45,6 +45,7 @@ let ShoppingList = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
+    const [route] = useRoute()
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -54,6 +55,7 @@ let ShoppingList = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props);
     return (
       <div {...attrs}>
+        <div>Detail {route.params?.id}</div>
         <DetailProvider>
           {({ shoppingList, setShoppingList }) => (
             <>

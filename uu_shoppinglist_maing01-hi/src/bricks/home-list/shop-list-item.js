@@ -108,7 +108,7 @@ const ShopListItem = createVisualComponent({
                 <button
                   className={Css.myBtn()}
                   style={{ marginRight: "5px" }}
-                  onClick={() => setRoute("shoppingList")}>
+                  onClick={() => setRoute(`shoppingList/detail?id=${shopL.id}`)}>
                   Open
                 </button>
                 {currentUserId === shopL.ownerId && (

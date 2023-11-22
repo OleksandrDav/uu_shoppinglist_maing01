@@ -17,7 +17,7 @@ const ShoppingList = Utils.Component.lazy(() => import("../routes/shopping-list.
 const ROUTE_MAP = {
   "": { redirect: "home" },
   home: (props) => <Home {...props} />,
-  shoppingList: (props) => <ShoppingList {...props} />,
+  "shoppingList/detail": (props) => <ShoppingList {...props} />,
   about: (props) => <About {...props} />,
   "sys/uuAppWorkspace/initUve": (props) => <InitAppWorkspace {...props} />,
   controlPanel: (props) => <ControlPanel {...props} />,
