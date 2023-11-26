@@ -1,0 +1,117 @@
+{
+   "itemList": [
+      {
+         "id": "5u80d1ba9e6aad000d2cdf96",
+         "awid": "22222222222222222222222222222222",
+         "name": "Shopping List 22",
+         "ownerId": "7389-360-836-0000",
+         "memberId": [
+            "5626-3282-9969-0000",
+            "158-9653-8287-0000"
+         ],
+         "products": [
+            {
+               "id": 1701016575051,
+               "name": "tomato",
+               "completed": false
+            },
+            {
+               "id": 1701019467263,
+               "name": "New",
+               "completed": true
+            },
+            {
+               "id": 1701020300132,
+               "name": "Product with server call",
+               "completed": false
+            }
+         ],
+         "archived": true,
+         "sys": {
+            "cts": {
+               "$date": "2023-11-26T14:11:05.178Z"
+            },
+            "mts": {
+               "$date": "2023-11-26T18:06:21.647Z"
+            },
+            "rev": 29
+         }
+      },
+      {
+         "id": "5u80d1ba9e6aad000d2cdf97",
+         "awid": "22222222222222222222222222222223",
+         "name": "Grocery List 10",
+         "ownerId": "7389-360-836-0001",
+         "memberId": [
+            "5626-3282-9969-0001",
+            "158-9653-8287-0001"
+         ],
+         "products": [
+            {
+               "id": 1701016575052,
+               "name": "apple",
+               "completed": false
+            },
+            {
+               "id": 1701019467264,
+               "name": "Banana",
+               "completed": true
+            },
+            {
+               "id": 1701020300133,
+               "name": "Orange",
+               "completed": false
+            }
+         ],
+         "archived": false,
+         "sys": {
+            "cts": {
+               "$date": "2023-11-26T14:15:20.178Z"
+            },
+            "mts": {
+               "$date": "2023-11-26T18:10:35.647Z"
+            },
+            "rev": 30
+         }
+      },
+      {
+         "id": "5u80d1ba9e6aad000d2cdf98",
+         "awid": "22222222222222222222222222222224",
+         "name": "To-Do List 5",
+         "ownerId": "7389-360-836-0002",
+         "memberId": [
+            "5626-3282-9969-0002",
+            "158-9653-8287-0002"
+         ],
+         "products": [
+            {
+               "id": 1701016575053,
+               "name": "Notebook",
+               "completed": false
+            },
+            {
+               "id": 1701019467265,
+               "name": "Pen",
+               "completed": true
+            },
+            {
+               "id": 1701020300134,
+               "name": "Laptop",
+               "completed": false
+            }
+         ],
+         "archived": false,
+         "sys": {
+            "cts": {
+               "$date": "2023-11-26T14:20:35.178Z"
+            },
+            "mts": {
+               "$date": "2023-11-26T18:15:50.647Z"
+            },
+            "rev": 31
+         }
+      }
+   ],
+   "pageInfo": { "pageIndex": 0, "pageSize": 3, "total": 3 },
+   "uuAppErrorMap": {}
+}
