@@ -1,5 +1,6 @@
 //@@viewOn:imports
 import { createVisualComponent, Utils, Content } from "uu5g05";
+import { useAlertBus } from "uu5g05-elements";
 import Config from "./config/config.js";
 //@@viewOff:imports
 
@@ -53,8 +54,29 @@ const DeleteShop = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({ shop, setDeleteModal, deleteShoppingList }) {
+  render({ setModal, deleteShop, shoppingListDataList,nextPageIndexRef }) {
     //@@viewOn:private
+    const { addAlert } = useAlertBus();
+
+    function showError(error, header = "") {
+      addAlert({
+        header,
+        message: error.message,
+        priority: "error",
+      });
+    }
+
+    async function handleDelete(shoppingListDataObject) {
+      try {
+        await shoppingListDataObject.handlerMap.delete()
+        await shoppingListDataList.handlerMap.load(({pageInfo: { pageSize: nextPageIndexRef.current*3 }}));
+        setModal(false)
+      } catch (error) {
+        showError(error, "Joke delete failed!");
+        return;
+      }
+    }
+    
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -68,15 +90,15 @@ const DeleteShop = createVisualComponent({
         <div
           className={Css.text()}>
           Are you sure you want to delete this shopping list:{" "}
-          <strong>{shop && shop.name}</strong>
+          <strong>{deleteShop && deleteShop.name}</strong>
         </div>
         <div className={Css.confirmationContainer()}>
           <button
             className={Css.deleteButton()}
-            onClick={() => deleteShoppingList(shop.id)}>Delete</button>
+            onClick={() => handleDelete(deleteShop)}>Delete</button>
           <button
             className={Css.cancelButton()}
-            onClick={() => setDeleteModal({ isOpen: false, shop: null })}
+            onClick={() => setModal(false)}
           >
             Cancel
           </button>

@@ -1,10 +1,11 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useRoute, useSession } from "uu5g05";
+import { createVisualComponent, Utils, Content, useRoute, useSession, useRef, useState, useMemo } from "uu5g05";
 import Config from "./config/config.js";
 import { PersonItem } from "uu_plus4u5g02-elements"
 import CreateModal from "../shopping-list/create-modal.js";
 import DeleteShop from "./delete-shop.js";
 import Uu5Forms from "uu5g05-forms";
+import { Button, Pending, useAlertBus } from "uu5g05-elements";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -23,6 +24,12 @@ const Css = {
   shopBtns: () => Config.Css.css({
     display: 'flex',
   }),
+  loadBtn: () => Config.Css.css({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "15px 0px",
+  }),
   myBtn: () =>
     Config.Css.css({
       padding: '5px 15px',
@@ -31,13 +38,6 @@ const Css = {
       backgroundColor: 'transparent',
       border: '1px solid rgb(127, 142, 255)',
       cursor: 'pointer',
-    }),
-  deleteIcon: () =>
-    Config.Css.css({
-      cursor: 'pointer',
-      width: '14px',
-      height: '14px',
-      marginTop: "4px"
     }),
 };
 //@@viewOff:css
@@ -60,15 +60,52 @@ const ShopListItem = createVisualComponent({
   //@@viewOff:defaultProps
 
   render({
-    deleteModal,
-    setDeleteModal,
-    filterShoppingLists,
-    deleteShoppingList,
-    updateArchivedStatus }) {
+    shoppingListDataList, filterShoppingList }) {
     //@@viewOn:private
     const [, setRoute] = useRoute();
+    const [modal, setModal] = useState(false);
+    const [deleteShop, setDeleteShop] = useState(null);
     const session = useSession()
     const currentUserId = session.identity.uuIdentity
+    const { addAlert } = useAlertBus();
+    const nextPageIndexRef = useRef(1);
+    const [filter, setFilter] = useState("all")
+
+    function modalDelete(shop) {
+      setModal(true)
+      setDeleteShop(shop)
+    }
+
+    function showError(error, header = "") {
+      addAlert({
+        header,
+        message: error.message,
+        priority: "error",
+      });
+    }
+
+    async function handleLoadNext() {
+      try {
+        await shoppingListDataList.handlerMap.loadNext({ pageInfo: { pageIndex: nextPageIndexRef.current } });
+        nextPageIndexRef.current++;
+      } catch (error) {
+        showError(error, "Page loading failed!");
+      }
+    }
+
+    async function handleToggleArchived(shoppingListDataObject) {
+      const { id, data } = shoppingListDataObject;
+      try {
+        await shoppingListDataObject.handlerMap.update({ id, archived: !data.archived });
+        await shoppingListDataList.handlerMap.load({ pageInfo: { pageSize: nextPageIndexRef.current * 3 } });
+      } catch (error) {
+        showError(error, "Toggle archived status failed!");
+      }
+    }
+
+    const shoppingListList = shoppingListDataList?.data?.filter((item) => item !== undefined) || [];
+
+    const filteredShoppingList = useMemo(() => filterShoppingList(shoppingListList, filter), [filter, shoppingListList]);
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -77,27 +114,41 @@ const ShopListItem = createVisualComponent({
     //@@viewOn:render
     return (
       <div >
+        <div style={{ marginLeft: "12px" }}>
+          <label>Filter by archived</label>
+          <select
+            style={{ marginLeft: "10px" }}
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="archived">Archived</option>
+            <option value="nonArchived">Non archived</option>
+          </select>
+        </div>
         {
-          filterShoppingLists.map((shopL) =>
+          filteredShoppingList.map((shopL) =>
             <div className={Css.shop()}>
               <CreateModal
-                visible={deleteModal.isOpen}
-                setVisible={setDeleteModal.isOpen}>
+                visible={modal}
+                setVisible={setModal}>
                 <DeleteShop
-                  shop={deleteModal.shop}
-                  setDeleteModal={() => setDeleteModal({ isOpen: false, shop: null })}
-                  deleteShoppingList={deleteShoppingList} />
+                  setModal={setModal}
+                  deleteShop={deleteShop}
+                  shoppingListDataList={shoppingListDataList}
+                  nextPageIndexRef={nextPageIndexRef}
+                />
               </CreateModal>
               <div style={{ display: "flex" }}>
                 <Uu5Forms.Checkbox.Input
-                  value={shopL.archived}
-                  icon={shopL.archived ? "uugds-check" : undefined}
+                  value={shopL.data.archived}
+                  icon={shopL.data.archived ? "uugds-check" : undefined}
                   style={{ marginRight: "5px" }}
-                  onClick={() => updateArchivedStatus(shopL.id)} />
+                  onClick={() => handleToggleArchived(shopL)} />
                 <div>
                   <strong
-                    style={shopL.archived === true ? { textDecoration: "line-through", color:"red" } : {}}>
-                    {shopL.name}
+                    style={shopL.data.archived === true ? { textDecoration: "line-through", color: "red" } : {}}>
+                    {shopL.data.name}
                   </strong>
                   <div style={{ marginTop: "10px" }}>
                     <PersonItem uuIdentity={shopL.ownerId} subtitle="owner" size="m" />
@@ -108,26 +159,26 @@ const ShopListItem = createVisualComponent({
                 <button
                   className={Css.myBtn()}
                   style={{ marginRight: "5px" }}
-                  onClick={() => setRoute(`shoppingList/detail?id=${shopL.id}`)}>
+                  onClick={() => setRoute(`shoppingList/detail`, { id: shopL.data.id })}>
                   Open
                 </button>
-                {currentUserId === shopL.ownerId && (
-                  <button onClick={() => setDeleteModal({ isOpen: true, shop: shopL })}>
-                    <img className={Css.deleteIcon()} src="..//uu_shoppinglist_maing01-hi/mock/img/delete.png" />
+                {currentUserId === shopL.data.ownerId && (
+                  <button onClick={() => modalDelete(shopL)}>
+                    Delete
                   </button>
                 )}
               </div>
             </div>
           )
         }
-        {
-          filterShoppingLists.length === 0 &&
-          <div style={{
-            textAlign: 'center',
-            fontSize: '20px',
-            marginTop: '20px'
-          }}>You don't have shopping lists</div>
-        }
+        <div className={Css.loadBtn()}>
+          {shoppingListDataList?.state !== "pending" && (
+            <Button colorScheme="primary" onClick={handleLoadNext}>
+              Load next 3 shopping lists
+            </Button>
+          )}
+          {shoppingListDataList?.state === "pending" && <Pending />}
+        </div>
       </div>
     )
     //@@viewOff:render

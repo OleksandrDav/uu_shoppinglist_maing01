@@ -13,7 +13,6 @@ import ShopListItem from "../bricks/home-list/shop-list-item.js";
 import CreateShopForm from "../bricks/home-list/create-shop-form.js";
 import HomeListProvider from "../bricks/home-list/home-list-provider.js";
 import Header from "../bricks/home-list/header.js";
-import ShoppingListsFilter from "../bricks/home-list/shopping-lists-filter.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -64,36 +63,13 @@ let Home = createVisualComponent({
     return (
       <div className={Css.app()}>
         <HomeListProvider>
-          {({ modal,
-            setModal,
-            filterShoppingLists,
-            setShoppingLists,
-            shop,
-            setShop,
-            addNewShop,
-            deleteModal,
-            setDeleteModal,
-            deleteShoppingList,
-            filter,
-            setFilter,
-            updateArchivedStatus }) => (
+          {({ shoppingListDataList, filterShoppingList }) => (
             <>
               <Header
-                modal={modal}
-                setModal={setModal}
-                shop={shop}
-                setShop={setShop}
-                addNewShop={addNewShop} />
-              <ShoppingListsFilter
-                filter={filter}
-                setFilter={setFilter}
-              />
+                shoppingListDataList={shoppingListDataList} />
               <ShopListItem
-                deleteModal={deleteModal}
-                setDeleteModal={setDeleteModal}
-                filterShoppingLists={filterShoppingLists}
-                deleteShoppingList={deleteShoppingList}
-                updateArchivedStatus={updateArchivedStatus} />
+               shoppingListDataList={shoppingListDataList}
+               filterShoppingList={filterShoppingList} />
             </>
           )}
         </HomeListProvider>

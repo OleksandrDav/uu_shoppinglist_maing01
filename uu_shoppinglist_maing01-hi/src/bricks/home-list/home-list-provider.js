@@ -1,83 +1,10 @@
 //@@viewOn:imports
-import { createComponent, useMemo, useSession, useState } from "uu5g05";
+import { createComponent, useDataList, useMemo, useSession, useState } from "uu5g05";
 import Config from "./config/config.js";
+import Calls from "calls"
 //@@viewOff:imports
 
 //@@viewOn:constants
-const initShoppingLists = [
-  {
-    id: '5fb2458d4b9e561',
-    name: 'Shoppping List Name',
-    ownerId: '7389-360-836-0000',
-    memberId: ['5626-3282-9969-0000', '1132-8212-4841-0000'],
-    products: [
-      {
-        id: 'un123',
-        name: 'Tomato',
-        completed: true
-      },
-      {
-        id: 'un124',
-        name: 'Milk',
-        completed: false
-      },
-      {
-        id: 'un125',
-        name: 'Carrot',
-        completed: false
-      }
-    ],
-    archived: false
-  },
-  {
-    id: '5fb2458d4b9e562',
-    name: 'Shoppping List Name 2',
-    ownerId: '7389-360-836-0000',
-    memberId: ['5626-3282-9969-0000', '1132-8212-4841-0000'],
-    products: [
-      {
-        id: 'un123',
-        name: 'Tomato',
-        completed: true
-      },
-      {
-        id: 'un124',
-        name: 'Milk',
-        completed: false
-      },
-      {
-        id: 'un125',
-        name: 'Carrot',
-        completed: false
-      }
-    ],
-    archived: false
-  },
-  {
-    id: '5fb2458d4b9e563',
-    name: 'Shoppping List Name 3',
-    ownerId: '5626-3282-9969-0000',
-    memberId: ['1132-8212-4841-0000', '7389-360-836-0000'],
-    products: [
-      {
-        id: 'un123',
-        name: 'Tomato',
-        completed: true
-      },
-      {
-        id: 'un124',
-        name: 'Milk',
-        completed: false
-      },
-      {
-        id: 'un125',
-        name: 'Carrot',
-        completed: false
-      }
-    ],
-    archived: true
-  }
-]
 //@@viewOff:constants
 
 //@@viewOn:helpers
@@ -98,85 +25,58 @@ const HomeListProvider = createComponent({
 
   render({ children }) {
     //@@viewOn:private
-    const [shoppingLists, setShoppingLists] = useState(initShoppingLists)
-    const [modal, setModal] = useState(false)
-    const [deleteModal, setDeleteModal] = useState({ isOpen: false, shop: null })
-    const [shop, setShop] = useState({ name: '' });
-    const [filter, setFilter] = useState("all");
+    const shoppingListDataList = useDataList({
+      handlerMap: {
+        load: handleLoad,
+        loadNext: handleLoadNext,
+        create: handleCreate,
+      },
+      itemHandlerMap: {
+        update: handleUpdate,
+        delete: handleDelete,
+      },
+      pageSize: 3,
+    });
 
-    const filterShoppingLists = useMemo(() => {
-      return shoppingLists.filter(list => {
+    function handleLoad(dtoIn) {
+      return Calls.ShoppingList.list(dtoIn);
+    }
+
+    function handleLoadNext(dtoIn) {
+      return Calls.ShoppingList.list(dtoIn);
+    }
+
+    function handleCreate(dtoIn) {
+      return Calls.ShoppingList.create(dtoIn);
+    }
+
+    async function handleUpdate(dtoIn) {
+      return Calls.ShoppingList.update(dtoIn)
+    }
+
+    function handleDelete(dtoIn) {
+      return Calls.ShoppingList.delete(dtoIn);
+    }
+
+    function filterShoppingList(shoppingListList, filter) {
+      return shoppingListList?.filter((list) => {
         if (filter === 'all') {
           return true;
-        } else if (filter === 'completed') {
-          return !list.archived;
-        } else {
-          return list.archived;
+        } else if (filter === 'archived') {
+          return list.data.archived;
+        } else if (filter === 'nonArchived') {
+          return !list.data.archived;
         }
-      });
-    }, [filter, shoppingLists]);
-
-    const addNewShop = (e) => {
-      e.preventDefault()
-      if (shop.name.trim() !== '') {
-        const newShop = {
-          id: Date.now(),
-          ...shop,
-          ownerId: currentUserId,
-          memberId: [],
-          products: [],
-          archived: false
-        }
-        createNewShop(newShop);
-        setShop({ name: '' })
-      }
+      }) || [];
     }
-    const updateArchivedStatus = (listId) => {
-      setShoppingLists((prevLists) => {
-        return prevLists.map((list) => {
-          if (list.id === listId) {
-            return { ...list, archived: !list.archived };
-          }
-          return list;
-        });
-      });
-    };
-    
-
-    const deleteShoppingList = (listId) => {
-      setShoppingLists(shoppingLists.filter((list) => list.id !== listId))
-      setDeleteModal({ isOpen: false, shop: null })
-    }
-
-    const createNewShop = (newShop) => {
-      setShoppingLists([...shoppingLists, newShop])
-      setModal(false)
-    }
-
-    const session = useSession()
-    const currentUserId = session.identity.uuIdentity
     //@@viewOff:private
 
     //@@viewOn:interface
     //@@viewOff:interface
 
     //@@viewOn:render
-    const value = {
-      modal,
-      setModal,
-      filterShoppingLists,
-      setShoppingLists,
-      shop,
-      setShop,
-      addNewShop,
-      deleteModal,
-      setDeleteModal,
-      deleteShoppingList,
-      filter,
-      setFilter,
-      updateArchivedStatus
-    }
-    return typeof children === "function" ? children(value) : children;
+
+    return typeof children === "function" ? children({ shoppingListDataList, filterShoppingList }) : children;
     //@@viewOff:render
   },
 });

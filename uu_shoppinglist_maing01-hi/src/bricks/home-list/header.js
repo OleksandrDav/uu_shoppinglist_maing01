@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState } from "uu5g05";
 import CreateModal from "../shopping-list/create-modal.js";
 import Config from "./config/config.js";
 import CreateShopForm from "./create-shop-form.js";
@@ -48,15 +48,10 @@ const Header = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(
-    {
-      modal,
-      setModal,
-      shop,
-      setShop,
-      addNewShop,
-    }
+    { shoppingListDataList }
   ) {
     //@@viewOn:private
+    const [modal, setModal] = useState(false)
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -76,9 +71,8 @@ const Header = createVisualComponent({
           visible={modal}
           setVisible={setModal}>
           <CreateShopForm
-            shop={shop}
-            setShop={setShop}
-            addNewShop={addNewShop} />
+            shoppingListDataList={shoppingListDataList}
+            setModal={setModal} />
         </CreateModal>
       </div>
     );
