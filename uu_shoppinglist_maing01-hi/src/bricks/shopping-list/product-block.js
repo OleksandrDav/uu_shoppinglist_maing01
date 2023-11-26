@@ -10,13 +10,6 @@ import Calls from "calls"
 //@@viewOff:imports
 
 //@@viewOn:constants
-const user = {
-  id: '345id678',
-  name: 'Petr',
-  surname: 'Bondar',
-  login: 'o.test@gmail.com',
-  password: '12345678'
-}
 //@@viewOff:constants
 
 //@@viewOn:css

@@ -4,6 +4,7 @@ import Config from "./config/config.js";
 import Uu5Elements, { Input } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import { Environment } from "uu_plus4u5g02";
+import Calls from "calls"
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -34,9 +35,22 @@ const MembersForm = createVisualComponent({
   },
   //@@viewOff:defaultProps
 
-  render({ addMember }) {
+  render({ shoppingList, setShoppingList, setModal }) {
     //@@viewOn:private
-    
+    async function addUser(userId) {
+      try {
+        await Calls.ShoppingList.memberAdd({
+          id: shoppingList.id,
+          userId: userId
+        })
+        const updatedShoppingList = { ...shoppingList };
+        updatedShoppingList.memberId.push(userId)
+        setShoppingList(updatedShoppingList)
+        setModal(false)
+      } catch (error) {
+        console.error("Error fetching shopping list:", error);
+      }
+    }
 
     //@@viewOff:private
 
@@ -48,7 +62,7 @@ const MembersForm = createVisualComponent({
       uu5Tag: "UuPlus4UPeople.Bricks.SearchWithResult",
       props: {
         baseUri: Environment.peopleBaseUri,
-        onPersonSelected: ({uuIdentity}) => addMember(uuIdentity)
+        onPersonSelected: ({ uuIdentity }) => addUser(uuIdentity)
       }
     }
 

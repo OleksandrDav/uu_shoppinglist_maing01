@@ -1,10 +1,11 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, useEffect, PropTypes } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, useEffect, PropTypes, useSession, useRoute } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import CreateModal from "./create-modal.js";
 import MembersList from "./members-list.js";
 import MembersForm from "./members-form.js";
+import Calls from "calls"
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -33,45 +34,36 @@ const MembersBlock = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {
-    modal: PropTypes.bool.isRequired,
-    setModal: PropTypes.func.isRequired,
-    owner: PropTypes.object.isRequired,
-    addMember: PropTypes.func.isRequired,
-    shopUsers: PropTypes.array.isRequired,
-    query: PropTypes.string.isRequired,
-    setQuery: PropTypes.func.isRequired,
-    searchedMembers: PropTypes.array.isRequired,
-    handleDeleteUser: PropTypes.func.isRequired,
-    handleLeaveCurrentUser: PropTypes.func.isRequired
-  },
+  propTypes: {},
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {
-    modal: false,
-    setModal: () => { },
-    owner: {},
-    addMember: () => { },
-    shopUsers: [],
-    query: '',
-    setQuery: () => { },
-    searchedMembers: [],
-    handleDeleteUser: () => { },
-    handleLeaveCurrentUser: () => { }
-  },
+  defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({
-    modal,
-    setModal,
-    shoppingList,
-    setShoppingList,
-    addMember,
-    handleDeleteUser,
-    handleLeaveMemberUser
-  }) {
+  render({memberDataList}) {
     //@@viewOn:private
+    const session = useSession()
+    const currentUserId = session.identity.uuIdentity
+    const [modal, setModal] = useState(false);
+    const [route] = useRoute()
+    const [shoppingList, setShoppingList] = useState(null);
+
+    useEffect(() => {
+      if (route.params?.id) {
+
+        const shoppingListId = route.params.id;
+
+        Calls.ShoppingList.get({ id: shoppingListId })
+          .then((result) => {
+            setShoppingList(result);
+          })
+          .catch((error) => {
+            console.error("Error fetching shopping list:", error);
+          });
+      }
+      
+    }, [route.params?.id, shoppingList]);
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -93,20 +85,20 @@ const MembersBlock = createVisualComponent({
             primary: true,
             onClick: () => setModal(true)
           },
-          currentUser.id &&
-          shoppingList.memberId.includes(currentUser.id) && {
+          currentUserId &&
+          shoppingList?.memberId.includes(currentUserId) && {
             icon: 'uugds-delete',
             children: 'Leave',
-            onClick: () => handleLeaveMemberUser(currentUser.id)
+            onClick: () => handleLeaveMemberUser(currentUserId)
           }
         ].filter(Boolean)}
       >
         <CreateModal
           visible={modal}
           setVisible={setModal}>
-          <MembersForm  shoppingList={shoppingList} setShoppingList={setShoppingList} addMember={addMember}/>
+          <MembersForm shoppingList={shoppingList} setShoppingList={setShoppingList} setModal={setModal}/>
         </CreateModal>
-        <MembersList shoppingList={shoppingList} handleDeleteUser={handleDeleteUser}/>
+        <MembersList shoppingList={shoppingList} setShoppingList={setShoppingList}/>
       </Uu5Elements.Block>
     );
     //@@viewOff:render

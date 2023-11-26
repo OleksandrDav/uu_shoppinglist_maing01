@@ -55,30 +55,18 @@ let ShoppingList = createVisualComponent({
     return (
       <div {...attrs}>
         <>
-          {/* <MemberProvider shoppingList={shoppingList} setShoppingList={setShoppingList}>
+          <MemberProvider >
                 {({
-                  modal,
-                  setModal,
-                  shoppingList,
-                  setShoppingList,
-                  addMember,
-                  handleDeleteUser,
-                  handleLeaveMemberUser
+                  memberDataList
                 }) => (
                   <>
                     <MembersBlock
-                      modal={modal}
-                      setModal={setModal}
-                      shoppingList={shoppingList}
-                      setShoppingList={setShoppingList}
-                      addMember={addMember}
-                      handleDeleteUser={handleDeleteUser}
-                      handleLeaveMemberUser={handleLeaveMemberUser}
+                    memberDataList={memberDataList}
                     />
                   </>
                 )
                 }
-              </MemberProvider> */}
+              </MemberProvider>
           <ProductProvider>
             {({
               productDataList

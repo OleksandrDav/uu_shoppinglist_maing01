@@ -79,6 +79,16 @@ const Calls = {
       const commandUri = Calls.getCommandUri("shoppingList/product/remove")
       return Calls.call("post", commandUri, dtoIn)
     },
+
+    memberAdd(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/user/add")
+      return Calls.call("post", commandUri, dtoIn)
+    },
+
+    memberDelete(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/user/remove")
+      return Calls.call("post", commandUri, dtoIn)
+    },
   },
 
   getCommandUri(useCase, baseUri = Environment.appBaseUri) {
