@@ -6,7 +6,6 @@ import { withRoute } from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
 import importLsi from "../lsi/import-lsi.js";
-import DetailProvider from "../bricks/shopping-list/detail-provider.js";
 import MembersBlock from "../bricks/shopping-list/members-block";
 import ProductBlock from "../bricks/shopping-list/product-block.js";
 import ProductProvider from "../bricks/shopping-list/product-provider.js";
@@ -55,11 +54,8 @@ let ShoppingList = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props);
     return (
       <div {...attrs}>
-        <div>Detail {route.params?.id}</div>
-        <DetailProvider>
-          {({ shoppingList, setShoppingList }) => (
-            <>
-              <MemberProvider shoppingList={shoppingList} setShoppingList={setShoppingList}>
+        <>
+          {/* <MemberProvider shoppingList={shoppingList} setShoppingList={setShoppingList}>
                 {({
                   modal,
                   setModal,
@@ -82,48 +78,20 @@ let ShoppingList = createVisualComponent({
                   </>
                 )
                 }
-              </MemberProvider>
-              <ProductProvider shoppingList={shoppingList} setShoppingList={setShoppingList}>
-                {({
-                  modal,
-                  setModal,
-                  filter,
-                  setFilter,
-                  shoppingList,
-                  filteredProducts,
-                  setShoppingList,
-                  handleUpdateShopName,
-                  addNewProduct,
-                  product,
-                  setProduct,
-                  handleDeleteProduct,
-                  handleUpdateProductCompleted,
-                  handleUpdateProductName
-                }) => (
-                  <>
-                    <ProductBlock
-                      modal={modal}
-                      setModal={setModal}
-                      filter={filter}
-                      setFilter={setFilter}
-                      shoppingList={shoppingList}
-                      filteredProducts={filteredProducts}
-                      setShoppingList={setShoppingList}
-                      handleUpdateShopName={handleUpdateShopName}
-                      addNewProduct={addNewProduct}
-                      product={product}
-                      setProduct={setProduct}
-                      handleDeleteProduct={handleDeleteProduct}
-                      handleUpdateProductCompleted={handleUpdateProductCompleted}
-                      handleUpdateProductName={handleUpdateProductName}
-                    />
-                  </>
-                )}
+              </MemberProvider> */}
+          <ProductProvider>
+            {({
+              productDataList
+            }) => (
+              <>
+                <ProductBlock
+                  productDataList={productDataList}
+                />
+              </>
+            )}
 
-              </ProductProvider>
-            </>
-          )}
-        </DetailProvider>
+          </ProductProvider>
+        </>
       </div>
     );
     //@@viewOff:render

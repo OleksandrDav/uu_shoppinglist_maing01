@@ -1,6 +1,7 @@
 //@@viewOn:imports
-import { createComponent, useMemo, useState, PropTypes } from "uu5g05";
+import { createComponent, useMemo, useState, PropTypes, useDataList } from "uu5g05";
 import Config from "./config/config.js";
+import Calls from "calls"
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -28,110 +29,41 @@ const ProductProvider = createComponent({
   },
   //@@viewOff:defaultProps
 
-  render({ shoppingList, setShoppingList, children }) {
+  render({ children }) {
 
     //@@viewOn:private
-    const [modal, setModal] = useState(false)
-    const [filter, setFilter] = useState('all');
-    const [product, setProduct] = useState({ name: '' });
+    const productDataList = useDataList({
+      handlerMap: {
+        productAdd: handleCreate,
+      },
+      itemHandlerMap: {
+        productUpdate: handleUpdate,
+        productDelete: handleDelete,
+      },
+      pageSize: 100,
+    });
 
-    const addNewProduct = (e) => {
-      e.preventDefault()
-      if (product.name.trim() !== '') {
-        const newProduct = {
-          id: Date.now(),
-          ...product,
-          completed: false
-        }
-        createProduct(newProduct)
-        setProduct({ name: '' })
-      }
+    function handleCreate(dtoIn) {
+      return Calls.ShoppingList.productAdd(dtoIn);
     }
 
-    const filteredProducts = useMemo(() => {
-      return shoppingList.products.filter(product => {
-        if (filter === 'all') {
-          return true;
-        } else if (filter === 'completed') {
-          return product.completed;
-        } else {
-          return !product.completed;
-        }
-      });
-    }, [filter, shoppingList.products])
-
-
-    function handleUpdateShopName(value) {
-      const updatedShoppingList = { ...shoppingList }
-      updatedShoppingList.name = value
-      setShoppingList(updatedShoppingList)
-    }
-    function createProduct(newProduct) {
-      const updatedShoppingList = { ...shoppingList };
-      const updatedProducts = [...shoppingList.products];
-      updatedProducts.push(newProduct);
-      updatedShoppingList.products = updatedProducts;
-      setShoppingList(updatedShoppingList);
-
-      setModal(false)
+    async function handleUpdate(dtoIn) {
+      return Calls.ShoppingList.productUpdate(dtoIn)
     }
 
-    function handleDeleteProduct(id) {
-      const updatedProducts = shoppingList.products.filter((product) => product.id !== id)
-      setShoppingList({ ...shoppingList, products: updatedProducts })
-    }
-    function handleUpdateProductCompleted(id) {
-      const updatedShoppingList = { ...shoppingList };
-      const updatedProducts = updatedShoppingList.products.map((product) => {
-        if (product.id === id) {
-          return { ...product, completed: !product.completed };
-        }
-        return product;
-      });
-
-      updatedShoppingList.products = updatedProducts;
-      setShoppingList(updatedShoppingList);
+    function handleDelete(dtoIn) {
+      return Calls.ShoppingList.productDelete(dtoIn);
     }
 
-    function handleUpdateProductName(id, value) {
-      setShoppingList(prevShoppingList => {
-        const updatedProducts = prevShoppingList.products.map(product => {
-          if (product.id === id) {
-            return { ...product, name: value };
-          }
-          return product;
-        });
-    
-        return {
-          ...prevShoppingList,
-          products: updatedProducts 
-        };
-      });
-    }
+
     //@@viewOff:private
 
     //@@viewOn:interface
     //@@viewOff:interface
 
     //@@viewOn:render
-    const value = {
-      modal,
-      setModal,
-      createProduct,
-      filter,
-      setFilter,
-      shoppingList,
-      filteredProducts,
-      setShoppingList,
-      handleUpdateShopName,
-      addNewProduct,
-      product,
-      setProduct,
-      handleDeleteProduct,
-      handleUpdateProductCompleted,
-      handleUpdateProductName
-    }
-    return typeof children === "function" ? children(value) : children;
+    
+    return typeof children === "function" ? children({productDataList}) : children;
     //@@viewOff:render
   },
 });

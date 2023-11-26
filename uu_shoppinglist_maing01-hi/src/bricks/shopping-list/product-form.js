@@ -3,6 +3,7 @@ import { createVisualComponent, Utils, Content, useState, PropTypes } from "uu5g
 import Config from "./config/config.js";
 import Uu5Forms from "uu5g05-forms";
 import { Block, Button } from "uu5g05-elements";
+import Calls from "calls"
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -40,10 +41,22 @@ const ProductForm = createVisualComponent({
   },
   //@@viewOff:defaultProps
 
-  render({ addNewProduct, product, setProduct }) {
+  render({ product, setProduct, shoppingListId, shoppingList, setShoppingList, setModal }) {
     //@@viewOn:private
-
-
+    async function handleSubmit() {
+      try {
+        await Calls.ShoppingList.productAdd({ id: shoppingListId, product: product.name });
+        const updatedShoppingList = { ...shoppingList };
+        const updatedProducts = [...shoppingList.products];
+        updatedProducts.push({id: Date.now(), ...product, completed:false})
+        updatedShoppingList.products = updatedProducts;
+        setShoppingList(updatedShoppingList);
+        setProduct({ name: '' });
+        setModal(false)
+      } catch (error) {
+        console.error("Error fetching shopping list:", error);
+      }
+    }
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -60,7 +73,7 @@ const ProductForm = createVisualComponent({
           onChange={(e) => { setProduct({ ...product, name: e.target.value }) }} />
         <Uu5Forms.SubmitButton
           disapled={!product.name.trim()}
-          onClick={addNewProduct}>
+          onClick={handleSubmit}>
           Add Product
         </Uu5Forms.SubmitButton>
       </form>

@@ -59,6 +59,26 @@ const Calls = {
       const commandUri = Calls.getCommandUri("shoppingList/delete");
       return Calls.call("post", commandUri, dtoIn);
     },
+
+    get(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/get")
+      return Calls.call("get", commandUri, dtoIn)
+    },
+
+    productAdd(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/product/add")
+      return Calls.call("post", commandUri, dtoIn)
+    },
+
+    productUpdate(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/product/setCompleted")
+      return Calls.call("post", commandUri, dtoIn)
+    },
+
+    productDelete(dtoIn) {
+      const commandUri = Calls.getCommandUri("shoppingList/product/remove")
+      return Calls.call("post", commandUri, dtoIn)
+    },
   },
 
   getCommandUri(useCase, baseUri = Environment.appBaseUri) {
