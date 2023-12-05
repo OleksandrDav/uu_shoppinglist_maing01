@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useSession, useState } from "uu5g05";
+import { createVisualComponent, Utils, Content, useSession, useState, Lsi } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements, { Input, useAlertBus } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
@@ -62,14 +62,14 @@ const CreateShopForm = createVisualComponent({
       <form>
         <Uu5Forms.Text.Input
           type='text'
-          placeholder='Name of the shopping list'
+          placeholder={{ cs: "Název nákupního seznamu", en: "Name of the shopping list" }}
           value={shop.name}
           style={{ marginRight: "10px" }}
           onChange={(e) => { setShop({ ...shop, name: e.target.value }) }} />
         <Uu5Forms.SubmitButton
           disapled={!shop.name.trim()}
           onClick={() => handleSubmit(shop)}>
-          Add Shop
+          <Lsi lsi={{ cs: "Přidat obchod", en: "Add shop" }} />
         </Uu5Forms.SubmitButton>
       </form>
     );

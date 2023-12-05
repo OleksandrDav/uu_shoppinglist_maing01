@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, useEffect, useSession, PropTypes } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, useEffect, useSession, PropTypes, Lsi } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import { PersonItem } from "uu_plus4u5g02-elements"
@@ -71,7 +71,7 @@ const MembersList = createVisualComponent({
                 shoppingList?.ownerId === currentUserId
                   ? {
                     icon: 'uugds-delete',
-                    children: 'Delete',
+                    children: <Lsi lsi={{cs: "Smazat", en: "Delete"}}/>,
                     onClick: () => handleDeleteUser(user)
                   } : {}
               ]}>

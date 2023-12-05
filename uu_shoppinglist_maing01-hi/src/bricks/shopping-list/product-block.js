@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, PropTypes, useMemo, useSession, useRoute, useEffect } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, PropTypes, useMemo, useSession, useRoute, useEffect, Lsi } from "uu5g05";
 import Uu5Elements, { Input } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Config from "./config/config.js";
@@ -83,7 +83,7 @@ const ProductBlock = createVisualComponent({
         actionList={[
           {
             icon: "uugds-plus",
-            children: "Create",
+            children: <Lsi lsi={{cs: "Vytvořit", en: "Create"}}/>,
             primary: true,
             onClick: () => setModal(true)
           }

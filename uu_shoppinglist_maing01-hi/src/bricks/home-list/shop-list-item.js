@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useRoute, useSession, useRef, useState, useMemo } from "uu5g05";
+import { createVisualComponent, Utils, Content, useRoute, useSession, useRef, useState, useMemo, Lsi } from "uu5g05";
 import Config from "./config/config.js";
 import { PersonItem } from "uu_plus4u5g02-elements"
 import CreateModal from "../shopping-list/create-modal.js";
@@ -38,6 +38,13 @@ const Css = {
       backgroundColor: 'transparent',
       border: '1px solid rgb(127, 142, 255)',
       cursor: 'pointer',
+    }),
+  deleteIcon: () =>
+    Config.Css.css({
+      cursor: 'pointer',
+      width: '14px',
+      height: '14px',
+      marginTop: "4px"
     }),
 };
 //@@viewOff:css
@@ -115,7 +122,7 @@ const ShopListItem = createVisualComponent({
     return (
       <div >
         <div style={{ marginLeft: "12px" }}>
-          <label>Filter by archived</label>
+          <label><Lsi lsi={{cs: "Filtrovat podle archivovaných", en: "Filter by archived"}}/></label>
           <select
             style={{ marginLeft: "10px" }}
             value={filter}
@@ -160,11 +167,11 @@ const ShopListItem = createVisualComponent({
                   className={Css.myBtn()}
                   style={{ marginRight: "5px" }}
                   onClick={() => setRoute(`shoppingList/detail`, { id: shopL.data.id })}>
-                  Open
+                  <Lsi lsi={{cs: "Otevřít", en: "Open"}}/>
                 </button>
                 {currentUserId === shopL.data.ownerId && (
                   <button onClick={() => modalDelete(shopL)}>
-                    Delete
+                    <img className={Css.deleteIcon()} src="./mock/img/delete.png" />
                   </button>
                 )}
               </div>
@@ -174,7 +181,7 @@ const ShopListItem = createVisualComponent({
         <div className={Css.loadBtn()}>
           {shoppingListDataList?.state !== "pending" && (
             <Button colorScheme="primary" onClick={handleLoadNext}>
-              Load next 3 shopping lists
+              <Lsi lsi={{cs: "Načíst další 3 nákupní seznamy", en: "Load next 3 shopping lists"}}/>
             </Button>
           )}
           {shoppingListDataList?.state === "pending" && <Pending />}

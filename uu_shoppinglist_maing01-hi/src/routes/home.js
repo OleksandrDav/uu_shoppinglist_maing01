@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, Lsi, useRoute, useState, } from "uu5g05";
+import { Utils, createVisualComponent, useSession, Lsi, useRoute, useState, useAppBackground } from "uu5g05";
 import Uu5Elements, { Button } from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import { withRoute } from "uu_plus4u5g02-app";
@@ -53,7 +53,8 @@ let Home = createVisualComponent({
 
   render() {
     //@@viewOn:private
-
+    const [background, setBackground] = useAppBackground();
+    const darkMode = background === "dark";
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -62,14 +63,26 @@ let Home = createVisualComponent({
     //@@viewOn:render
     return (
       <div className={Css.app()}>
+         <Uu5Elements.Toggle
+          style={{ display: "flex", justifyContent: "center" }}
+          value={!darkMode}
+          onChange={() =>
+            setBackground({
+              backgroundColor: darkMode
+                ? null
+                : Uu5Elements.UuGds.ColorPalette.getValue(["building", "dark", "main"]),
+            })
+          }
+          iconOff="uugdsstencil-weather-moon"
+          iconOn="uugdsstencil-weather-sun" />
         <HomeListProvider>
           {({ shoppingListDataList, filterShoppingList }) => (
             <>
               <Header
                 shoppingListDataList={shoppingListDataList} />
               <ShopListItem
-               shoppingListDataList={shoppingListDataList}
-               filterShoppingList={filterShoppingList} />
+                shoppingListDataList={shoppingListDataList}
+                filterShoppingList={filterShoppingList} />
             </>
           )}
         </HomeListProvider>

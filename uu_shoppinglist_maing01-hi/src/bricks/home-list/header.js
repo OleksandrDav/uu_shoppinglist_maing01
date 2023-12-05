@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, Lsi } from "uu5g05";
 import CreateModal from "../shopping-list/create-modal.js";
 import Config from "./config/config.js";
 import CreateShopForm from "./create-shop-form.js";
@@ -61,11 +61,11 @@ const Header = createVisualComponent({
 
     return (
       <div className={Css.header()}>
-        <h1>Shopping Lists</h1>
+        <h1><Lsi lsi={{ cs: "Nákupní seznamy", en: "Shopping Lists" }} /></h1>
         <button
           className={Css.btnCreate()}
           onClick={() => setModal(true)}>
-          Create
+          <Lsi lsi={{ cs: "Vytvořit", en: "Create" }} />
         </button>
         <CreateModal
           visible={modal}

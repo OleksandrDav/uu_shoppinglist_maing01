@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, useEffect, PropTypes, useSession, useRoute } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, useEffect, PropTypes, useSession, useRoute, useAppBackground, Lsi } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import CreateModal from "./create-modal.js";
@@ -41,13 +41,15 @@ const MembersBlock = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({memberDataList}) {
+  render({ memberDataList }) {
     //@@viewOn:private
     const session = useSession()
     const currentUserId = session.identity.uuIdentity
     const [modal, setModal] = useState(false);
     const [route] = useRoute()
     const [shoppingList, setShoppingList] = useState(null);
+    const [background, setBackground] = useAppBackground();
+    const darkMode = background === "dark";
 
     useEffect(() => {
       if (route.params?.id) {
@@ -62,7 +64,7 @@ const MembersBlock = createVisualComponent({
             console.error("Error fetching shopping list:", error);
           });
       }
-      
+
     }, [route.params?.id, shoppingList]);
     //@@viewOff:private
 
@@ -72,37 +74,52 @@ const MembersBlock = createVisualComponent({
     //@@viewOn:render
 
     return (
-      <Uu5Elements.Block
-        card="full"
-        headerSeparator
-        header='List of members'
-        headerType="heading"
-        level={5}
-        actionList={[
-          {
-            icon: "uugds-plus",
-            children: "Add users",
-            primary: true,
-            onClick: () => setModal(true)
-          },
-          currentUserId &&
-          shoppingList?.memberId.includes(currentUserId) && {
-            icon: 'uugds-delete',
-            children: 'Leave',
-            onClick: () => handleLeaveMemberUser(currentUserId)
+      <>
+      <Uu5Elements.Toggle
+          style={{display: "flex", justifyContent: "center"}}
+          value={!darkMode}
+          onChange={() =>
+            setBackground({
+              backgroundColor: darkMode
+                ? null
+                : Uu5Elements.UuGds.ColorPalette.getValue(["building", "dark", "main"]),
+            })
           }
-        ].filter(Boolean)}
-      >
-        <CreateModal
-          visible={modal}
-          setVisible={setModal}>
-          <MembersForm shoppingList={shoppingList} setShoppingList={setShoppingList} setModal={setModal}/>
-        </CreateModal>
-        <MembersList shoppingList={shoppingList} setShoppingList={setShoppingList}/>
-      </Uu5Elements.Block>
-    );
+          iconOff="uugdsstencil-weather-moon"
+          iconOn="uugdsstencil-weather-sun" />
+        <Uu5Elements.Block
+          card="full"
+          headerSeparator
+          header={<Lsi lsi={{cs: "Seznam členů", en: "List of members"}}/>}
+          headerType="heading"
+          level={5}
+          actionList={[
+            {
+              icon: "uugds-plus",
+              children: <Lsi lsi={{cs: "Přidat uživatele", en: "Add user"}}/>,
+              primary: true,
+              onClick: () => setModal(true)
+            },
+            currentUserId &&
+            shoppingList?.memberId.includes(currentUserId) && {
+              icon: 'uugds-delete',
+              children: <Lsi lsi={{cs: "Odejít", en: "Leave"}}/>,
+              onClick: () => handleLeaveMemberUser(currentUserId)
+            },
+          ].filter(Boolean)}
+        >
+          <CreateModal
+            visible={modal}
+            setVisible={setModal}>
+            <MembersForm shoppingList={shoppingList} setShoppingList={setShoppingList} setModal={setModal} />
+          </CreateModal>
+          <MembersList shoppingList={shoppingList} setShoppingList={setShoppingList} />
+        </Uu5Elements.Block>
+      </>);
+
     //@@viewOff:render
   },
+
 });
 
 //@@viewOn:exports

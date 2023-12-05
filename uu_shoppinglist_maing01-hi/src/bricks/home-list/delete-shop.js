@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content } from "uu5g05";
+import { createVisualComponent, Utils, Content, Lsi } from "uu5g05";
 import { useAlertBus } from "uu5g05-elements";
 import Config from "./config/config.js";
 //@@viewOff:imports
@@ -54,7 +54,7 @@ const DeleteShop = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({ setModal, deleteShop, shoppingListDataList,nextPageIndexRef }) {
+  render({ setModal, deleteShop, shoppingListDataList, nextPageIndexRef }) {
     //@@viewOn:private
     const { addAlert } = useAlertBus();
 
@@ -69,14 +69,13 @@ const DeleteShop = createVisualComponent({
     async function handleDelete(shoppingListDataObject) {
       try {
         await shoppingListDataObject.handlerMap.delete()
-        await shoppingListDataList.handlerMap.load(({pageInfo: { pageSize: nextPageIndexRef.current*3 }}));
+        await shoppingListDataList.handlerMap.load(({ pageInfo: { pageSize: nextPageIndexRef.current * 3 } }));
         setModal(false)
       } catch (error) {
         showError(error, "Joke delete failed!");
         return;
       }
     }
-    
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -86,21 +85,23 @@ const DeleteShop = createVisualComponent({
 
     return (
       <div >
-        <h1>Confirmation</h1>
+        <h1><Lsi lsi={{ cs: "Potvrzení", en: "Confirmation" }} /></h1>
         <div
           className={Css.text()}>
-          Are you sure you want to delete this shopping list:{" "}
-          <strong>{deleteShop && deleteShop.name}</strong>
+          <Lsi lsi={{ cs: "Opravdu chcete smazat tento nákupní seznam:", en: "Are you sure you want to delete this shopping list:" }} />
+          <strong> {deleteShop && deleteShop.data.name}</strong>
         </div>
         <div className={Css.confirmationContainer()}>
           <button
             className={Css.deleteButton()}
-            onClick={() => handleDelete(deleteShop)}>Delete</button>
+            onClick={() => handleDelete(deleteShop)}>
+            <Lsi lsi={{ cs: "Smazat", en: "Delete" }} />
+          </button>
           <button
             className={Css.cancelButton()}
             onClick={() => setModal(false)}
           >
-            Cancel
+            <Lsi lsi={{ cs: "Zrušit", en: "Cancel" }} />
           </button>
         </div>
       </div>

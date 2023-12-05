@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, useState, PropTypes } from "uu5g05";
+import { createVisualComponent, Utils, Content, useState, PropTypes, Lsi } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Forms from "uu5g05-forms";
 import { Block, Button } from "uu5g05-elements";
@@ -68,13 +68,13 @@ const ProductForm = createVisualComponent({
       <form>
         <Uu5Forms.Text.Input
           type='text'
-          placeholder='Name of the product'
+          placeholder={{ cs: "Název produktu", en: "Name of the product" }}
           value={product.name}
           onChange={(e) => { setProduct({ ...product, name: e.target.value }) }} />
         <Uu5Forms.SubmitButton
           disapled={!product.name.trim()}
           onClick={handleSubmit}>
-          Add Product
+          <Lsi lsi={{ cs: "Přidat produkt", en: "Add Product" }} />
         </Uu5Forms.SubmitButton>
       </form>
     );

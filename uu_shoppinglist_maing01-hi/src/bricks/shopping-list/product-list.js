@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils, Content, PropTypes, useState, useMemo } from "uu5g05";
+import { createVisualComponent, Utils, Content, PropTypes, useState, useMemo, Lsi } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Calls from "../../calls.js";
@@ -97,9 +97,9 @@ const ProductList = createVisualComponent({
     return (
       <>
         <div>
-          <label>Filter by completed</label>
+          <label><Lsi lsi={{ cs: "Filtrovat podle dokončeno", en: "Filter by completed" }} /></label>
           <select
-            style={{ margin: "15px" }}
+            style={{ marginBottom: "15px" }}
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           >
@@ -115,7 +115,7 @@ const ProductList = createVisualComponent({
                 key={product.id}
                 actionList={[{
                   icon: 'uugds-delete',
-                  children: 'Delete',
+                  children: <Lsi lsi={{ cs: "Smazat", en: "Delete" }} />,
                   onClick: () => handleDeleteProduct(product.id)
                 }]}>
                 <Uu5Elements.Grid flow='column' alignItems='center'>
@@ -123,11 +123,9 @@ const ProductList = createVisualComponent({
                     value={product.completed}
                     icon={product.completed ? "uugds-check" : undefined}
                     onClick={() => handleUpdateProductCompleted(product.id, product.completed)} />
-                  <Uu5Forms.Text.Input
-                    value={product.name}
-                    significance='subdued'
-                    onChange={(e) => handleUpdateProductName(product.id, e.target.value)}
-                  />
+                  <p 
+                  onChange={(e) => handleUpdateProductName(product.id, e.target.value)}>
+                    {product.name}</p>
                 </Uu5Elements.Grid>
               </Uu5Elements.ListItem>
             )
