@@ -7,6 +7,7 @@ import CreateModal from "./create-modal.js";
 import ProductForm from "./product-form.js";
 import ProductList from "./product-list.js";
 import Calls from "calls"
+import PieChart from "./pie-chart.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -35,7 +36,7 @@ const ProductBlock = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render({}) {
+  render({ }) {
     //@@viewOn:private
     const session = useSession()
     const currentUserId = session.identity.uuIdentity
@@ -57,9 +58,9 @@ const ProductBlock = createVisualComponent({
             console.error("Error fetching shopping list:", error);
           });
       }
-      
+
     }, [route.params?.id, shoppingList]);
-   
+
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -83,13 +84,13 @@ const ProductBlock = createVisualComponent({
         actionList={[
           {
             icon: "uugds-plus",
-            children: <Lsi lsi={{cs: "Vytvořit", en: "Create"}}/>,
+            children: <Lsi lsi={{ cs: "Vytvořit", en: "Create" }} />,
             primary: true,
             onClick: () => setModal(true)
           }
         ]}
       >
-        
+
         <CreateModal
           visible={modal}
           setVisible={setModal}>
@@ -104,6 +105,7 @@ const ProductBlock = createVisualComponent({
         <ProductList
           shoppingList={shoppingList}
           setShoppingList={setShoppingList} />
+        <PieChart products={shoppingList?.products} />
       </Uu5Elements.Block>
     );
     //@@viewOff:render

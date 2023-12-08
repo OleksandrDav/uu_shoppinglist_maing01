@@ -6,6 +6,7 @@ import CreateModal from "../shopping-list/create-modal.js";
 import DeleteShop from "./delete-shop.js";
 import Uu5Forms from "uu5g05-forms";
 import { Button, Pending, useAlertBus } from "uu5g05-elements";
+import PieChartList from "./pie-chart-list.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -178,6 +179,7 @@ const ShopListItem = createVisualComponent({
             </div>
           )
         }
+        <PieChartList shoppingLists = {filteredShoppingList}/>
         <div className={Css.loadBtn()}>
           {shoppingListDataList?.state !== "pending" && (
             <Button colorScheme="primary" onClick={handleLoadNext}>
