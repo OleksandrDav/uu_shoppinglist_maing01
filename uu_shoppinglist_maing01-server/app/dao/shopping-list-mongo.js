@@ -40,8 +40,8 @@ class ShoppingListMongo extends UuObjectDao {
   }
 
   async update(shoppingList) {
-    let filter = { id: shoppingList.id, awid: shoppingList.awid, revision: shoppingList.revision };
-    return await super.findOneAndUpdate(filter, shoppingList, "NONE");
+    let filter = { id: shoppingList.id, awid: shoppingList.awid};
+    return await super.findOneAndUpdate(filter, shoppingList);
   }
 }
 

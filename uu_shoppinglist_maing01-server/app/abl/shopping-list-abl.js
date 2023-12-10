@@ -5,6 +5,8 @@ const { DaoFactory } = require("uu_appg01_server").ObjectStore;
 
 const Errors = require("../api/errors/shopping-list-error.js");
 const Warnings = require("../api/warnings/shoppinglist-warning.js")
+// const InstanceChecker = require("../../component/instance-checker");
+// const { Profiles, Schemas, ShoppingList } = require("./constants");
 
 
 const DEFAULTS = {
@@ -19,8 +21,9 @@ class ShoppingListAbl {
     this.dao = DaoFactory.getDao("shoppingList");
   }
 
-  async list(awid, dtoIn, session, authorizationResult) {
+  async list(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
+    console.log(authorizationResult);
 
     // Validate input DTO
     const validationResult = this.validator.validate("shoppingListListDtoInType", dtoIn);
@@ -32,17 +35,22 @@ class ShoppingListAbl {
       Errors.List.InvalidDtoIn
     );
 
+    if (!authorizationResult.getIdentityProfiles().includes('Executives')
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
     const shoppingLists = await this.dao.list(awid, dtoIn.pageInfo);
 
     const dtoOut = {
-      shoppingLists,
+      ...shoppingLists,
       uuAppErrorMap,
     };
 
     return dtoOut;
   }
 
-  async setCompleted(awid, dtoIn, session, authorizationResult) {
+  async setCompleted(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
 
     const validationResult = this.validator.validate("shoppingListCompletedProductDtoInType", dtoIn);
@@ -59,6 +67,15 @@ class ShoppingListAbl {
       throw new Errors.CompletedProduct.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
+    const uuIdentity = authorizationResult.getUuIdentity()
+
+    if (!(shoppingList.ownerId === uuIdentity)
+      && !shoppingList.memberId.includes(uuIdentity)
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
     const productIndex = shoppingList.products.findIndex((product) => product.id === dtoIn.productId);
 
     if (productIndex !== -1) {
@@ -69,14 +86,14 @@ class ShoppingListAbl {
     }
 
     const dtoOut = {
-      shoppingList,
+      ...shoppingList,
       uuAppErrorMap,
     };
 
     return dtoOut;
   }
 
-  async removeProduct(awid, dtoIn, session, authorizationResult) {
+  async removeProduct(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
 
     // Validate input DTO
@@ -95,6 +112,15 @@ class ShoppingListAbl {
       throw new Errors.RemoveProduct.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
+    const uuIdentity = authorizationResult.getUuIdentity()
+
+    if (!(shoppingList.ownerId === uuIdentity)
+      && !shoppingList.memberId.includes(uuIdentity)
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
     // Find the index of the product in the shopping list
     const productIndex = shoppingList.products.findIndex((product) => product.id === dtoIn.productId);
 
@@ -107,14 +133,14 @@ class ShoppingListAbl {
     }
 
     const dtoOut = {
-      shoppingList,
+      ...shoppingList,
       uuAppErrorMap,
     };
 
     return dtoOut;
   }
 
-  async addProduct(awid, dtoIn, session, authorizationResult) {
+  async addProduct(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
 
     const validationResult = this.validator.validate("shoppingListAddProductDtoInType", dtoIn);
@@ -131,6 +157,15 @@ class ShoppingListAbl {
       throw new Errors.AddProduct.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
+    const uuIdentity = authorizationResult.getUuIdentity()
+
+    if (!(shoppingList.ownerId === uuIdentity)
+      && !shoppingList.memberId.includes(uuIdentity)
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
     const product = {
       id: Date.now(),
       name: dtoIn.product,
@@ -142,14 +177,14 @@ class ShoppingListAbl {
     await this.dao.update(shoppingList);
 
     const dtoOut = {
-      shoppingList,
+      ...shoppingList,
       uuAppErrorMap,
     };
 
     return dtoOut;
   }
 
-  async removeUser(awid, dtoIn, session, authorizationResult) {
+  async removeUser(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
 
     const validationResult = this.validator.validate("shoppingListRemoveUserDtoInType", dtoIn);
@@ -166,6 +201,15 @@ class ShoppingListAbl {
       throw new Errors.RemoveUser.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
+    const uuIdentity = authorizationResult.getUuIdentity()
+
+    if (!(shoppingList.ownerId === uuIdentity)
+      && shoppingList.memberId.includes(uuIdentity)
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
     const userIdIndex = shoppingList.memberId.indexOf(dtoIn.userId);
     if (userIdIndex !== -1) {
       shoppingList.memberId.splice(userIdIndex, 1);
@@ -173,14 +217,14 @@ class ShoppingListAbl {
     }
 
     const dtoOut = {
-      shoppingList,
+      ...shoppingList,
       uuAppErrorMap,
     };
 
     return dtoOut;
   }
 
-  async addUser(awid, dtoIn, session, authorizationResult) {
+  async addUser(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
 
     const validationResult = this.validator.validate("shoppingListAddUserDtoInType", dtoIn);
@@ -197,22 +241,30 @@ class ShoppingListAbl {
       throw new Errors.AddUser.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
+    const uuIdentity = authorizationResult.getUuIdentity()
+
+    if (!(shoppingList.ownerId === uuIdentity)
+      && shoppingList.memberId.includes(uuIdentity)
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
     shoppingList.memberId.push(dtoIn.userId);
 
     await this.dao.update(shoppingList);
 
     const dtoOut = {
-      shoppingList,
+      ...shoppingList,
       uuAppErrorMap,
     };
 
     return dtoOut;
   }
 
-  async update(awid, dtoIn, session, authorizationResult) {
+  async update(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
 
-    // Validate common fields in both cases
     const validationResult = this.validator.validate("shoppingListUpdateDtoInType", dtoIn);
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -227,6 +279,15 @@ class ShoppingListAbl {
       throw new Errors.Update.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
+    const uuIdentity = authorizationResult.getUuIdentity()
+
+    if (!(shoppingList.ownerId === uuIdentity)
+      && shoppingList.memberId.includes(uuIdentity)
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
 
     if (dtoIn.name !== undefined) {
       shoppingList.name = dtoIn.name;
@@ -237,14 +298,14 @@ class ShoppingListAbl {
     await this.dao.update(shoppingList);
 
     const dtoOut = {
-      shoppingList,
+      ...shoppingList,
       uuAppErrorMap,
     };
 
     return dtoOut;
   }
 
-  async delete(awid, dtoIn, session, authorizationResult) {
+  async delete(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
 
     const validationResult = this.validator.validate("shoppingListDeleteDtoInType", dtoIn);
@@ -262,10 +323,19 @@ class ShoppingListAbl {
       throw new Errors.Delete.ShoppinglistDoesNotExist({ uuAppErrorMap }, { shoppingListId: dtoIn.id });
     }
 
+    const uuIdentity = authorizationResult.getUuIdentity()
+
+    if (!(shoppingList.ownerId === uuIdentity)
+      && shoppingList.memberId.includes(uuIdentity)
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
     await this.dao.delete(awid, dtoIn.id);
 
     const dtoOut = {
-      shoppingList,
+      ...shoppingList,
       uuAppErrorMap,
     };
 
@@ -273,7 +343,7 @@ class ShoppingListAbl {
 
   }
 
-  async getSL(awid, dtoIn) {
+  async getSL(awid, dtoIn, authorizationResult) {
     let uuAppErrorMap = {};
 
     const validationResult = this.validator.validate("shoppingListGetDtoInType", dtoIn);
@@ -291,6 +361,15 @@ class ShoppingListAbl {
       throw new Errors.GetSL.ShoppinglistDoesNotExist(uuAppErrorMap, { shoppingListId: dtoIn.id });
     }
 
+    const uuIdentity = authorizationResult.getUuIdentity()
+
+    if (!(shoppingList.ownerId === uuIdentity)
+      && !shoppingList.memberId.includes(uuIdentity)
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
+
     const dtoOut = {
       ...shoppingList,
       uuAppErrorMap,
@@ -299,7 +378,7 @@ class ShoppingListAbl {
     return dtoOut;
   }
 
-  async listByIdentity(awid, dtoIn, session) {
+  async listByIdentity(awid, dtoIn, session, authorizationResult) {
     let uuAppErrorMap = {};
 
     const validationResult = this.validator.validate("shoppingListListByIdentityDtoInType", dtoIn);
@@ -313,6 +392,10 @@ class ShoppingListAbl {
     );
 
     const uuIdentity = session.getIdentity().getUuIdentity();
+
+    if (!authorizationResult.getIdentityProfiles().includes('StandardUsers')) {
+      throw new Errors.ListByIdentity.UserNotAuthorized({ uuAppErrorMap })
+    }
 
     if (!dtoIn.pageInfo) dtoIn.pageInfo = {};
     if (!dtoIn.pageInfo.pageSize) dtoIn.pageInfo.pageSize = DEFAULTS.pageSize;
@@ -342,6 +425,12 @@ class ShoppingListAbl {
 
     // get uuIdentity information
     const uuIdentity = session.getIdentity().getUuIdentity();
+
+    if (!authorizationResult.getIdentityProfiles().includes('StandardUsers')
+      && !authorizationResult.getIdentityProfiles().includes('Authorities')
+      && !authorizationResult.getIdentityProfiles().includes('Executives')) {
+      throw new Errors.List.UserNotAuthorized({ uuAppErrorMap })
+    }
 
     const uuObject = {
       awid,

@@ -12,8 +12,8 @@ afterEach(async () => {
 });
 
 describe("uuCmd shoppingList/create", () => {
-   test("hds - StandardUser", async () => {
-      await TestHelper.login("StandardUserUser");
+   test("hds - StandardUsers", async () => {
+      await TestHelper.login("StandardUsers");
 
       const dtoIn = {
          name: "New Shopping List"
@@ -26,14 +26,25 @@ describe("uuCmd shoppingList/create", () => {
       expect(result.data.uuAppErrorMap).toEqual({});
    });
 
-   test.skip("invalid dtoIn", async () => {
-      expect.assertions(3);
+   test("invalid dtoIn", async () => {
       try {
          await TestHelper.executePostCommand("shoppingList/create", {});
       } catch (e) {
-         expect(e.code).toEqual("uu-shoppingList-main/shoppingList/create/invalidDtoIn");
+         expect(e.code).toEqual("uu-shoppinglist-main/shoppingList/create/invalidDtoIn");
          expect(Object.keys(e.paramMap.missingKeyMap).length).toEqual(1);
          expect(e.status).toEqual(400);
+      }
+   });
+
+   test("unauthorized user", async () => {
+      try {
+         const dtoIn = {
+            name: "New Shopping List"
+         };
+         await TestHelper.executePostCommand("shoppingList/create", dtoIn);
+      } catch (e) {
+         expect(e.code).toEqual("uu-shoppinglist-main/shoppingList/list/userNotAuthorized");
+         expect(e.status).toEqual(403);
       }
    });
 });

@@ -31,11 +31,11 @@
       },
       "shoppingList/create": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities", "Executives","StandardUsers"]
+        "profileList": ["Authorities", "Executives", "StandardUsers"]
       },
       "shoppingList/listByIdentity": {
         "sysStateList": ["active"],
-        "profileList": ["StandardUsers"]
+        "profileList": ["StandardUsers", "Authenticated"]
       },
       "shoppingList/get": {
         "sysStateList": ["active"],

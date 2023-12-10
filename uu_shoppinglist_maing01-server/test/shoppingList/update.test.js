@@ -11,41 +11,51 @@ afterEach(async () => {
   await TestHelper.teardown();
 });
 
-describe("uuCmd shoppingList/user/remove", () => {
-  test("hds - remove user from shopping list", async () => {
+describe("uuCmd shoppingList/update", () => {
+  test("hds - update shopping list name", async () => {
     await TestHelper.login("StandardUsers");
 
     const createDtoIn = {
-      name: "Test Shopping List"
+      name: "Original Shopping List",
     };
     const createdShoppingList = await TestHelper.executePostCommand("shoppingList/create", createDtoIn);
 
-    const addUserDtoIn = {
+    const updateDtoIn = {
       id: createdShoppingList.id,
-      userId: "6-11-6"
+      name: "Updated Shopping List",
     };
-    await TestHelper.executePostCommand("shoppingList/user/add", addUserDtoIn);
-
-    const removeUserDtoIn = {
-      id: createdShoppingList.id,
-      userId: "6-11-6"
-    };
-    const result = await TestHelper.executePostCommand("shoppingList/user/remove", removeUserDtoIn);
+    const result = await TestHelper.executePostCommand("shoppingList/update", updateDtoIn);
 
     expect(result.data.id).toEqual(createdShoppingList.id);
-    expect(result.data.memberId).not.toContain("6-11-6");
+    expect(result.data.name).toEqual(updateDtoIn.name);
+    expect(result.data.uuAppErrorMap).toEqual({});
+  });
+
+  test("hds - update shopping list archived status", async () => {
+    await TestHelper.login("StandardUsers");
+
+    const createDtoIn = {
+      name: "Original Shopping List",
+    };
+    const createdShoppingList = await TestHelper.executePostCommand("shoppingList/create", createDtoIn);
+
+    const updateDtoIn = {
+      id: createdShoppingList.id,
+      archived: true,
+    };
+    const result = await TestHelper.executePostCommand("shoppingList/update", updateDtoIn);
+
+    expect(result.data.id).toEqual(createdShoppingList.id);
+    expect(result.data.archived).toEqual(updateDtoIn.archived);
     expect(result.data.uuAppErrorMap).toEqual({});
   });
 
   test("invalid dtoIn - Missing ID", async () => {
     await TestHelper.login("StandardUsers");
     try {
-      const removeUserDtoIn = {
-        userId: "6-11-6"
-      };
-      await TestHelper.executePostCommand("shoppingList/user/remove", removeUserDtoIn);
+      await TestHelper.executePostCommand("shoppingList/update", {});
     } catch (e) {
-      expect(e.code).toEqual("uu-shoppinglist-main/shoppingList/removeUser/invalidDtoIn");
+      expect(e.code).toEqual("uu-shoppinglist-main/shoppingList/update/invalidDtoIn");
       expect(Object.keys(e.paramMap.missingKeyMap).length).toEqual(1);
       expect(e.status).toEqual(400);
     }
@@ -54,13 +64,13 @@ describe("uuCmd shoppingList/user/remove", () => {
   test("shopping list not found", async () => {
     await TestHelper.login("StandardUsers");
     try {
-      const removeUserDtoIn = {
+      const updateDtoIn = {
         id: "655399f0e4778c4144c064a2",
-        userId: "6-11-6"
+        name: "Updated Shopping List",
       };
-      await TestHelper.executePostCommand("shoppingList/user/remove", removeUserDtoIn);
+      await TestHelper.executePostCommand("shoppingList/update", updateDtoIn);
     } catch (e) {
-      expect(e.code).toEqual("uu-shoppinglist-main/shoppingList/removeUser/shoppingListDoesNotExist");
+      expect(e.code).toEqual("uu-shoppinglist-main/shoppingList/update/shoppingListDoesNotExist");
       expect(e.status).toEqual(400);
     }
   });
@@ -72,11 +82,11 @@ describe("uuCmd shoppingList/user/remove", () => {
       };
       const createdShoppingList = await TestHelper.executePostCommand("shoppingList/create", createDtoIn);
 
-      const removeUserDtoIn = {
+      const updateDtoIn = {
         id: createdShoppingList.id,
-        userId: "6-11-6"
+        name: "Updated Shopping List",
       };
-      await TestHelper.executePostCommand("shoppingList/user/remove", removeUserDtoIn);
+      await TestHelper.executePostCommand("shoppingList/update", updateDtoIn);
     } catch (e) {
       expect(e.code).toEqual("uu-shoppinglist-main/shoppingList/list/userNotAuthorized");
       expect(e.status).toEqual(403);

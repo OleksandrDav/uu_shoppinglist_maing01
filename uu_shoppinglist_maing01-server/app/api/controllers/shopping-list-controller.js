@@ -7,7 +7,6 @@ class ShoppingListController {
     return ShoppingListAbl.list(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession(),
       ucEnv.getAuthorizationResult()
       );
   }
@@ -16,7 +15,6 @@ class ShoppingListController {
     return ShoppingListAbl.setCompleted(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession(),
       ucEnv.getAuthorizationResult()
       );
   }
@@ -25,7 +23,6 @@ class ShoppingListController {
     return ShoppingListAbl.removeProduct(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession(),
       ucEnv.getAuthorizationResult()
       );
   }
@@ -34,7 +31,6 @@ class ShoppingListController {
     return ShoppingListAbl.addProduct(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession(),
       ucEnv.getAuthorizationResult()
       );
   }
@@ -43,7 +39,6 @@ class ShoppingListController {
     return ShoppingListAbl.removeUser(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession(),
       ucEnv.getAuthorizationResult()
       );
   }
@@ -52,7 +47,6 @@ class ShoppingListController {
     return ShoppingListAbl.addUser(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession(),
       ucEnv.getAuthorizationResult()
       );
   }
@@ -61,7 +55,6 @@ class ShoppingListController {
     return ShoppingListAbl.update(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession(),
       ucEnv.getAuthorizationResult()
       );
   }
@@ -70,7 +63,6 @@ class ShoppingListController {
     return ShoppingListAbl.delete(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession(),
       ucEnv.getAuthorizationResult()
       )
   }
@@ -78,14 +70,17 @@ class ShoppingListController {
   getSL(ucEnv) {
     return ShoppingListAbl.getSL(
       ucEnv.getUri().getAwid(), 
-      ucEnv.getDtoIn());
+      ucEnv.getDtoIn(),
+      ucEnv.getAuthorizationResult()
+      )
   }
 
   listByIdentity(ucEnv) {
     return ShoppingListAbl.listByIdentity(
       ucEnv.getUri().getAwid(), 
       ucEnv.getDtoIn(),
-      ucEnv.getSession()
+      ucEnv.getSession(),
+      ucEnv.getAuthorizationResult()
       );
   }
 
